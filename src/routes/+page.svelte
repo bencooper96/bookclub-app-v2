@@ -7,7 +7,7 @@
 <div class="h-full">
 	<AppBar>
 		<svelte:fragment slot="lead">Currently Reading</svelte:fragment>
-		<svelte:fragment slot="trail">Menu icon</svelte:fragment>
+		<!-- <svelte:fragment slot="trail">Menu icon</svelte:fragment> -->
 	</AppBar>
 	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
 		<div class="mx-1">
