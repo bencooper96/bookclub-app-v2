@@ -5,7 +5,3 @@ VALUES
 INSERT INTO auth.identities (id,user_id,identity_data,provider,last_sign_in_at,created_at,updated_at)
 VALUES 
   ('5899f99d-a449-4bfa-8769-19c097aaf1f5', '5899f99d-a449-4bfa-8769-19c097aaf1f5'::uuid, '{"sub": "5899f99d-a449-4bfa-8769-19c097aaf1f5"}', 'email', '2022-10-04 04:45:00.000+00', '2022-10-04 03:41:27.391146+00', '2022-10-04 03:41:27.39308+00');
-
-INSERT INTO public.user_profiles (id, created_at, display_name)
-VALUES 
-  ('5899f99d-a449-4bfa-8769-19c097aaf1f5', '2022-10-04 03:41:27.391146+00', 'admin');
