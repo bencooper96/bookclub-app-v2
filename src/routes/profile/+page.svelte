@@ -52,7 +52,7 @@
 <style>
 	button {
 		@apply flex flex-row items-center justify-center p-4 w-full;
-		@apply border border-surface-900-50-token rounded-sm shadow-lg;
+		@apply border border-surface-900-50-token bg-surface-100-800-token rounded-sm shadow-lg;
 	}
 
 	button:hover {

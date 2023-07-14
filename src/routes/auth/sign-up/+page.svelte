@@ -1,5 +1,7 @@
 <!-- // src/routes/auth/+page.svelte -->
 <script lang="ts">
+	import { Toast, toastStore } from '@skeletonlabs/skeleton';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
@@ -17,7 +19,7 @@
 	let display_name: string;
 
 	const handleSignUp = async () => {
-		await supabase.auth.signUp({
+		const { error } = await supabase.auth.signUp({
 			email,
 			password,
 			options: {
@@ -27,6 +29,15 @@
 				}
 			}
 		});
+		if (error) {
+			console.error(error);
+			const t: ToastSettings = {
+				message: error.message,
+				timeout: 5000,
+				background: 'variant-filled-error'
+			};
+			toastStore.trigger(t);
+		}
 	};
 </script>
 
@@ -43,7 +54,7 @@
 				<input type="password" name="password" bind:value={password} />
 			</div>
 			<div class="w-full">
-				<label for="display_name">Display Name</label>
+				<label for="display_name">Full Name</label>
 				<input type="text" name="display_name" bind:value={display_name} />
 			</div>
 			<button type="submit" class="mt-4">Sign Up</button>

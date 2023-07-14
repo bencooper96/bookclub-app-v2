@@ -1,5 +1,7 @@
 <!-- // src/routes/auth/+page.svelte -->
 <script lang="ts">
+	import { Toast, toastStore } from '@skeletonlabs/skeleton';
+	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
@@ -11,10 +13,19 @@
 	let password: string;
 
 	const handleSignIn = async () => {
-		await supabase.auth.signInWithPassword({
+		const { error } = await supabase.auth.signInWithPassword({
 			email,
 			password
 		});
+		if (error) {
+			console.error(error);
+			const t: ToastSettings = {
+				message: error.message,
+				timeout: 5000,
+				background: 'variant-filled-error'
+			};
+			toastStore.trigger(t);
+		}
 	};
 
 	const route = $page.url.searchParams.get('redirect') ?? '/';

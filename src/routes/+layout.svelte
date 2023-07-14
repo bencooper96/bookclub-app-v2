@@ -8,6 +8,7 @@
 
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { Toast } from '@skeletonlabs/skeleton';
 
 	export let data;
 
@@ -28,3 +29,4 @@
 </script>
 
 <slot />
+<Toast />
