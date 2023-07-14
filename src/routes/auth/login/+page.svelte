@@ -1,6 +1,6 @@
 <!-- // src/routes/auth/+page.svelte -->
 <script lang="ts">
-	import { Toast, toastStore } from '@skeletonlabs/skeleton';
+	import { toastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';

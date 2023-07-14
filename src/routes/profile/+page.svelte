@@ -3,7 +3,6 @@
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { goto } from '$app/navigation';
-
 	export let data;
 	let { supabase, session } = data;
 	$: ({ supabase, session } = data);
@@ -28,15 +27,7 @@
 				<Icon icon="mdi:arrow-left" class="w-6 h-6" />
 			</a>
 		</svelte:fragment>
-		Profile
-		<svelte:fragment slot="trail">
-			<a href={session ? '/profile' : '/auth/login'} class="text-surface-900-50-token">
-				<div class="py-1 px-2 border border-surface-700-200-token rounded-sm flex flex-row gap-2">
-					<Icon icon="mdi:account-circle" class="w-6 h-6" />
-					<span>{session ? displayName ?? email : 'Sign In'}</span>
-				</div>
-			</a>
-		</svelte:fragment>
+		<h1 class="text-xl">Profile</h1>
 	</AppBar>
 	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
 		<h2 class="text-4xl font-bold">Profile</h2>
