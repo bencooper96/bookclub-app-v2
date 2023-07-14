@@ -2,12 +2,27 @@
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import MeetingDateDisplay from '../components/MeetingDateDisplay.svelte';
 	import RsvpInput from '../components/RSVPInput.svelte';
+	import Icon from '@iconify/svelte';
+
+	export let data;
+	$: ({ session } = data);
+	$: displayName = session?.user.user_metadata?.display_name ?? session?.user.email;
 </script>
 
 <div class="h-full">
 	<AppBar>
-		<svelte:fragment slot="lead">Currently Reading</svelte:fragment>
-		<!-- <svelte:fragment slot="trail">Menu icon</svelte:fragment> -->
+		<svelte:fragment slot="lead"><p /></svelte:fragment>
+		Currently Reading
+		<svelte:fragment slot="trail">
+			<a href={session ? '/profile' : '/auth/login'} class="text-surface-900-50-token">
+				<div
+					class="py-1 px-2 border border-surface-700-200-token rounded-sm flex flex-row gap-2 hover:bg-surface-200-700-token"
+				>
+					<Icon icon="mdi:account-circle" class="w-6 h-6" />
+					<span>{session ? displayName : 'Sign In'}</span>
+				</div>
+			</a>
+		</svelte:fragment>
 	</AppBar>
 	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
 		<div class="mx-1">
