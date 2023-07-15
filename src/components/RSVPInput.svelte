@@ -6,12 +6,12 @@
 
 <div class="flex flex-row gap-2 py-2">
 	<button on:click={() => handleRSVP(false)}>
-		<span>😢</span>
-		<span>Can’t make it</span>
+		<span class="text-2xl">😢</span>
+		<span class="text-lg">Can’t make it</span>
 	</button>
 	<button on:click={() => handleRSVP(true)}>
-		<span>🤗</span>
-		<span>I’ll be there!</span>
+		<span class="text-2xl">🤗</span>
+		<span class="text-lg">I’ll be there!</span>
 	</button>
 </div>
 

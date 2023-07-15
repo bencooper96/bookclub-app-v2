@@ -20,6 +20,7 @@
 
 	let bookId: number;
 	let bookInput: string = '';
+	let message: string = '';
 
 	let loading = false;
 	onMount(() => {
@@ -92,7 +93,7 @@
 					}
 				};
 			}}
-			class="flex flex-col gap-2 mt-2 p-2 rounded-sm bg-surface-50-900-token"
+			class="flex flex-col gap-2 mt-2 p-2 rounded-sm bg-surface-50-900-token shadow-xl"
 		>
 			<input type="hidden" name="bookId" value={bookId} />
 			<div class="w-full">
@@ -106,6 +107,10 @@
 					required
 					min={new Date().toISOString().split('T')[0]}
 				/>
+			</div>
+			<div class="w-full">
+				<label for="message">Message</label>
+				<textarea rows="2" class="input" name="message" id="message" bind:value={message} />
 			</div>
 
 			<div class="relative w-full">

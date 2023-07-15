@@ -48,7 +48,7 @@
 					loading = false;
 				};
 			}}
-			class="flex flex-col gap-2 mt-2 p-2 rounded-sm bg-surface-50-900-token"
+			class="flex flex-col gap-2 mt-2 p-2 rounded-sm bg-surface-50-900-token shadow-xl"
 		>
 			<div class="w-full">
 				<label for="title">Title</label>

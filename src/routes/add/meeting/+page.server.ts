@@ -17,12 +17,16 @@ export const actions = {
 		const formData = await request.formData();
 		const session = await getSession();
 		const book = formData.get('bookId') ?? null;
+		const message = formData.get('message') ?? null;
 		const meeting_date = formData.get('datetime');
 
 		if (!session) return fail(401, { message: 'Unauthorized' });
 		const input = { meeting_date };
 		if (parseInt(book)) {
 			input['book'] = book;
+		}
+		if (message) {
+			input['message'] = message;
 		}
 		const { data, error } = await supabase.from('meetings').insert([input]).select('*');
 
