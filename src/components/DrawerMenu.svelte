@@ -41,13 +41,25 @@
 			</li>
 			<hr />
 			<li>
-				<a href="/" class={`flex flex-row items-center gap-1`} on:click={closeMenu}>
+				<a
+					href="/add/book"
+					class={`flex flex-row items-center gap-1 ${
+						$page.url.pathname == '/add/book' && 'font-bold'
+					}`}
+					on:click={closeMenu}
+				>
 					<Icon icon="mdi:book-plus" class="w-7 h-7" />
 					Add a book
 				</a>
 			</li>
 			<li>
-				<a href="/" class={`flex flex-row items-center gap-1`} on:click={closeMenu}>
+				<a
+					href="/add/meeting"
+					class={`flex flex-row items-center gap-1 ${
+						$page.url.pathname == '/add/meeting' && 'font-bold'
+					}`}
+					on:click={closeMenu}
+				>
 					<Icon icon="mdi:calendar-plus" class="w-7 h-7" />
 					Add a meeting
 				</a>
