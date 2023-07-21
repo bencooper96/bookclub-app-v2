@@ -15,8 +15,6 @@
 		const now = new Date();
 		return meetingDate < now;
 	});
-
-	currentMeeting.subscribe(console.log);
 </script>
 
 <div class="h-full">

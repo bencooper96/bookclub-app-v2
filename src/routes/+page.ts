@@ -13,8 +13,8 @@ export const load = async () => {
 		`
 		)
 		.order('meeting_date', { ascending: true });
-	if (!data) return;
 
+	if (!data) return;
 	meetings.set(data);
 	rsvps.set(data.map((meeting) => meeting.rsvps).flat());
 	if (data.length) {
