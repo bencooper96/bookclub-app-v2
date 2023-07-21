@@ -16,6 +16,10 @@
 
 	export let data;
 	$: ({ session } = data);
+	$: if (!session) {
+		goto('/auth/login?redirect=/add/meeting');
+	}
+
 	let isFromBook = $page.url.searchParams.get('from') === 'book';
 
 	let bookId: number;

@@ -7,7 +7,9 @@
 
 	export let data;
 	$: ({ session } = data);
-
+	$: if (!session) {
+		goto('/auth/login?redirect=/add/book');
+	}
 	let title: string;
 	let author: string;
 	let loading = false;

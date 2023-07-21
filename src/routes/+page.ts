@@ -17,10 +17,11 @@ export const load = async () => {
 	if (!data) return;
 	meetings.set(data);
 	rsvps.set(data.map((meeting) => meeting.rsvps).flat());
+
 	if (data.length) {
 		const now = new Date();
 		const currentMeeting = data.filter((meeting) => new Date(meeting.meeting_date) > now)[0];
-		currentMeetingId.set(currentMeeting.id);
+		currentMeetingId.set(currentMeeting?.id);
 	}
 	return {
 		data

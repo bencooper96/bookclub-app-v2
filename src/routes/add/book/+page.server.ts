@@ -14,7 +14,7 @@ export const actions = {
 		const { data, error } = await supabase.from('books').insert([{ title, author }]).select('*');
 
 		if (error) {
-			return fail(error.status, error.message);
+			return fail(400, { message: error.message });
 		}
 		return {
 			...data[0]
