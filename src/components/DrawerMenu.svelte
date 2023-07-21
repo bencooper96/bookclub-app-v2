@@ -26,7 +26,7 @@
 <button on:click={openMenu}>
 	<Icon icon="mdi:menu" class="w-6 h-6" />
 </button>
-<Drawer>
+<Drawer class="z-50">
 	<div class="flex flex-col justify-between p-4 pt-10 h-full text-surface-900-50-token">
 		<ul class="flex flex-col gap-4 text-2xl">
 			<li>

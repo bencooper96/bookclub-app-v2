@@ -9,20 +9,31 @@
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
 	export let date: string;
+	export let minimal = false;
+
+	const dateFormat = minimal ? 'ddd, MMM D' : 'dddd, MMMM Do';
 
 	$: nextMeeting = dayjs(date);
-	$: nextMeetingDateString = nextMeeting.format('dddd, MMM D');
+	$: nextMeetingDateString = nextMeeting.format(dateFormat);
 	$: nextMeetingTimeString = nextMeeting.format('h:mm A z');
 </script>
 
-<div class="flex flex-col py-2 px-4 gradient-bg rounded-sm shadow-lg gap-2">
-	<span class="text-3xl text-surface-900-50-token tracking-wider">
-		{nextMeetingDateString}
-	</span>
-	<span class="text-3xl text-surface-900-50-token tracking-wider">
-		{nextMeetingTimeString}
-	</span>
-</div>
+{#if !minimal}
+	<div class="flex flex-col py-2 px-4 gradient-bg rounded-sm shadow-lg gap-2">
+		<span class="text-3xl text-surface-900-50-token tracking-wider">
+			{nextMeetingDateString}
+		</span>
+		<span class="text-3xl text-surface-900-50-token tracking-wider">
+			{nextMeetingTimeString}
+		</span>
+	</div>
+{:else}
+	<div class="flex flex-col py-2 px-4 gradient-bg rounded-sm shadow-lg gap-2">
+		<span class="text-md text-surface-900-50-token tracking-wider">
+			{nextMeetingDateString}
+		</span>
+	</div>
+{/if}
 
 <style>
 	.gradient-bg {

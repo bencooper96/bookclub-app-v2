@@ -43,7 +43,7 @@
 							initials={getInitials(rsvp.user.display_name)}
 							background={AVATAR_COLORS[i % AVATAR_COLORS.length]}
 						/>
-						<span>{rsvp.user.display_name} Cooper</span>
+						<span>{rsvp.user.display_name}</span>
 					</li>
 					{#if i < filteredRsvps.length - 1}
 						<hr class="border-surface-700-200-token" />

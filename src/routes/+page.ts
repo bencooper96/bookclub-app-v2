@@ -12,7 +12,7 @@ export const load = async () => {
 				user (id, display_name))
 		`
 		)
-		.order('meeting_date', { ascending: false });
+		.order('meeting_date', { ascending: true });
 	if (!data) return;
 
 	meetings.set(data);
