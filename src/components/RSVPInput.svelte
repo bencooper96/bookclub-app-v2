@@ -42,12 +42,18 @@
 	}
 </script>
 
-{#if !session}
-	<a class="card p-4 rsvp-input" href="/auth/login">
-		<span class="text-2xl">✋</span>
-		<span class="text-lg">You must be signed in to rsvp.</span>
-	</a>
-{:else}
+<div class="relative overflow-x-visible">
+	{#if !session}
+		<div class="absolute inset-0 p-4 -m-2 backdrop-blur-sm grid place-items-center">
+			<a
+				class="card p-2 bg-surface-100-800-token rounded-sm border-surface-500 border-2"
+				href="/auth/login"
+			>
+				<span class="text-2xl mr-1">✋</span>
+				<span class="text-lg">You must be signed in to RSVP</span>
+			</a>
+		</div>
+	{/if}
 	<div class="flex flex-row gap-2 py-2">
 		<button
 			class="rsvp-input"
@@ -66,7 +72,7 @@
 			<span class="text-lg">I’ll be there!</span>
 		</button>
 	</div>
-{/if}
+</div>
 
 <style>
 	.rsvp-input {

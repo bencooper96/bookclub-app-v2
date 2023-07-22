@@ -40,9 +40,11 @@
 				{/if}
 			</div>
 			<div class="container bg-surface-50-900-token p-4 rounded-sm flex flex-col gap-8 shadow-xl">
-				<div class="flex flex-col gap-1 w-full">
-					<h2 class="text-lg text-surface-800-100-token font-light">Next meeting:</h2>
-					<MeetingDateDisplay date={$currentMeeting.meeting_date} />
+				<div class="flex flex-col gap-6 w-full overflow-x-visible">
+					<div class="flex flex-col gap-1 w-full">
+						<h2 class="text-lg text-surface-800-100-token font-light">Next meeting:</h2>
+						<MeetingDateDisplay date={$currentMeeting.meeting_date} />
+					</div>
 					<RsvpInput {session} {supabase} meeting={$currentMeeting.id} />
 					<MeetingRSVPs meeting={$currentMeeting.id} />
 				</div>
