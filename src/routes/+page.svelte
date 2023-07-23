@@ -15,6 +15,16 @@
 		const now = new Date();
 		return meetingDate < now;
 	});
+	// This variable will save the event for later use.
+	let deferredPrompt: ({ prompt: () => void } & Event) | undefined;
+	window.addEventListener('beforeinstallprompt', (e) => {
+		e.preventDefault();
+		deferredPrompt = e as { prompt: () => void } & Event;
+	});
+
+	function installApp() {
+		deferredPrompt?.prompt();
+	}
 </script>
 
 <div class="h-full">
@@ -22,6 +32,16 @@
 		<svelte:fragment slot="lead">
 			<DrawerMenu {session} />
 			<h1 class="ml-1 text-xl">Currently Reading</h1>
+		</svelte:fragment>
+		<svelte:fragment slot="trail">
+			{#if deferredPrompt !== undefined}
+				<button
+					class="flex flex-row items-center gap-2 px-4 py-2 rounded-sm shadow bg-primary-300-600-token text-surface-800"
+					on:click={installApp}
+				>
+					Install</button
+				>
+			{/if}
 		</svelte:fragment>
 	</AppBar>
 	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
