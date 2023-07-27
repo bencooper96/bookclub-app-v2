@@ -10,7 +10,7 @@
 	import { onMount } from 'svelte';
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-
+	import { pwaInfo } from 'virtual:pwa-info';
 	import { storePopup } from '@skeletonlabs/skeleton';
 
 	export let data;
@@ -30,7 +30,17 @@
 
 		return () => subscription.unsubscribe();
 	});
+
+	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
+
+<svelte:head>
+	{@html webManifestLink}
+</svelte:head>
 
 <slot />
 <Toast />
+
+{#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
+	<ReloadPrompt />
+{/await}

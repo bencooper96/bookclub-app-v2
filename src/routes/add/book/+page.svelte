@@ -53,11 +53,11 @@
 			class="flex flex-col gap-2 mt-2 p-2 rounded-sm bg-surface-50-900-token shadow-xl"
 		>
 			<div class="w-full">
-				<label for="title">Title</label>
+				<label class="label" for="title">Title</label>
 				<input class="w-full input" required type="text" name="title" bind:value={title} />
 			</div>
 			<div class="w-full">
-				<label for="author">Author</label>
+				<label class="label" for="author">Author</label>
 				<input type="text" class="input" required name="author" bind:value={author} />
 			</div>
 			<button type="submit" class="mt-4">Add book</button>

@@ -40,12 +40,12 @@
 
 		<form on:submit={handleSignIn} class="flex flex-col gap-2 mt-4">
 			<div class="w-full">
-				<label for="email">Email</label>
-				<input class="w-full" type="email" name="email" bind:value={email} />
+				<label for="email" class="label">Email</label>
+				<input class="w-full input" type="email" name="email" bind:value={email} />
 			</div>
 			<div class="w-full">
-				<label for="password">Password</label>
-				<input type="password" name="password" bind:value={password} />
+				<label for="password" class="label">Password</label>
+				<input type="password" class="input" name="password" bind:value={password} />
 			</div>
 			<button type="submit" class="mt-4">Sign In</button>
 			<span class="text-center">
