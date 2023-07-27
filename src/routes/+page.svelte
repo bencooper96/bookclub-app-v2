@@ -6,6 +6,7 @@
 	import MeetingRSVPs from '$components/MeetingRSVPs.svelte';
 	import Icon from '@iconify/svelte';
 	import { currentMeeting, meetings } from '$lib/stores/meetings';
+	import { onMount } from 'svelte';
 	export let data;
 
 	$: ({ session, supabase } = data);
@@ -17,9 +18,12 @@
 	});
 	// This variable will save the event for later use.
 	let deferredPrompt: ({ prompt: () => void } & Event) | undefined;
-	window.addEventListener('beforeinstallprompt', (e) => {
-		e.preventDefault();
-		deferredPrompt = e as { prompt: () => void } & Event;
+
+	onMount(() => {
+		window.addEventListener('beforeinstallprompt', (e) => {
+			e.preventDefault();
+			deferredPrompt = e as { prompt: () => void } & Event;
+		});
 	});
 
 	function installApp() {
