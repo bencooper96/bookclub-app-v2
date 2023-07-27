@@ -46,16 +46,28 @@
 		<h2 class="text-7xl font-bold text-center">Sign up</h2>
 		<form on:submit={handleSignUp} class="flex flex-col gap-2 mt-4">
 			<div class="w-full">
-				<label for="email">Email</label>
-				<input class="w-full" type="email" name="email" required bind:value={email} />
+				<label class="label" for="email">Email</label>
+				<input class="w-full input" type="email" name="email" required bind:value={email} />
 			</div>
 			<div class="w-full">
-				<label for="password">Password</label>
-				<input type="password" name="password" required bind:value={password} />
+				<label class="label" for="password">Password</label>
+				<input
+					type="password"
+					class="w-full input"
+					name="password"
+					required
+					bind:value={password}
+				/>
 			</div>
 			<div class="w-full">
-				<label for="display_name">Full Name</label>
-				<input type="text" name="display_name" required bind:value={display_name} />
+				<label class="label" for="display_name">Full Name</label>
+				<input
+					type="text"
+					class="w-full input"
+					name="display_name"
+					required
+					bind:value={display_name}
+				/>
 			</div>
 			<button type="submit" class="mt-4">Sign Up</button>
 			<span class="text-center">
