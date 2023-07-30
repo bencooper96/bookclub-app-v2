@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { AppBar, toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import {
+		AppBar,
+		toastStore,
+		type ToastSettings,
+		Accordion,
+		AccordionItem
+	} from '@skeletonlabs/skeleton';
 
 	import DrawerMenu from '$components/DrawerMenu.svelte';
 	import { enhance } from '$app/forms';
@@ -12,6 +18,27 @@
 	}
 	let title: string;
 	let author: string;
+	let type: string | null = null;
+	const typeOptions = [
+		{ value: 'novel', label: 'Novel' },
+		{ value: 'short-story', label: 'Short Story/Short Story Collection' },
+		{ value: 'poem', label: 'Poem' },
+		{ value: 'play', label: 'Play' },
+		{ value: 'essay', label: 'Essay' },
+		{ value: 'non-fiction', label: 'Non-fiction' },
+		{ value: 'other', label: 'Other' }
+	];
+
+	let gender: string | null = null;
+	const genderOptions = [
+		{ value: 'female', label: 'Female' },
+		{ value: 'male', label: 'Male' },
+		{ value: 'non-binary', label: 'Non-binary/Genderqueer' }
+	];
+	let publication_year: string;
+	let original_language: string;
+	let race_ethnicity: string;
+
 	let loading = false;
 
 	const t: ToastSettings = {
@@ -60,6 +87,53 @@
 				<label class="label" for="author">Author</label>
 				<input type="text" class="input" required name="author" bind:value={author} />
 			</div>
+			<Accordion class="my-2 bg-surface-100-800-token border border-surface-500 rounded-lg">
+				<AccordionItem open>
+					<svelte:fragment slot="summary">Additional Info</svelte:fragment>
+					<svelte:fragment slot="content">
+						<div class="pb-2 flex flex-col gap-3">
+							<div class="w-full">
+								<label class="label" for="type">Type of reading</label>
+								<select class="input" name="type" bind:value={type}>
+									{#each typeOptions as option}
+										<option value={option.value}>{option.label}</option>
+									{/each}
+								</select>
+							</div>
+							<div class="w-full">
+								<label class="label" for="type">Gender of Author</label>
+								<select class="input" name="gender" bind:value={gender}>
+									{#each genderOptions as option}
+										<option value={option.value}>{option.label}</option>
+									{/each}
+								</select>
+							</div>
+						</div>
+						<div class="w-full">
+							<label class="label" for="publication_year">Publication Year</label>
+							<input
+								class="input"
+								type="number"
+								name="publication_year"
+								bind:value={publication_year}
+							/>
+						</div>
+						<div class="w-full">
+							<label class="label" for="original_language">Original Language</label>
+							<input
+								class="input"
+								type="text"
+								name="original_language"
+								bind:value={original_language}
+							/>
+						</div>
+						<div class="w-full">
+							<label class="label" for="race_ethnicity">Race/Ethnicity of Author</label>
+							<input class="input" type="text" name="race_ethnicity" bind:value={race_ethnicity} />
+						</div>
+					</svelte:fragment>
+				</AccordionItem>
+			</Accordion>
 			<button type="submit" class="mt-4">Add book</button>
 		</form>
 	</div>
