@@ -40,7 +40,7 @@
 		<svelte:fragment slot="trail">
 			{#if deferredPrompt !== undefined}
 				<button
-					class="flex flex-row items-center gap-2 px-4 py-2 rounded-sm shadow bg-primary-300-600-token text-surface-800"
+					class="sm:hidden flex flex-row items-center gap-2 px-4 py-2 rounded-sm shadow bg-primary-300-600-token text-surface-800"
 					on:click={installApp}
 				>
 					Install</button
