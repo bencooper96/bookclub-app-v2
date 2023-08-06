@@ -1,12 +1,21 @@
 <script lang="ts">
-	import { beforeUpdate, afterUpdate } from 'svelte';
-	import { chat, loadMore, replyData } from '$lib/stores/messages';
+	import { beforeUpdate, afterUpdate, onMount } from 'svelte';
+	import { chat, loadMore, loadChat } from '$lib/stores/messages';
 	import { createEventDispatcher } from 'svelte';
 	import { get } from 'svelte/store';
+	import { Avatar } from '@skeletonlabs/skeleton';
+	import type { Session } from '@supabase/supabase-js';
+	export let session: null | Session;
 
 	let isLoading = false;
 	const dispatch = createEventDispatcher();
 	let div: HTMLDivElement;
+
+	$: $chat = get(chat);
+	onMount(() => {
+		isLoading = true;
+		loadChat();
+	});
 
 	const backRead = async (e: any) => {
 		let clientHeight = e.srcElement.scrollTop;
@@ -23,57 +32,41 @@
 	};
 </script>
 
-<div class="chat-container" class:chat-loading={isLoading}>
-	<div class="chat-window" bind:this={div} on:scroll={backRead} class:disable-scroll={isLoading}>
-		{#each $chat as { id, created_at, username, message, replied_to_id, replied_to_message, replied_to_username }, key}
-			<div class="chat-box">
-				<div class="message">
-					{#key key}
-						{#if replied_to_id}
-							<div class="reply-box">
-								<span>Replied to <b>{replied_to_username}</b></span>
-								<span>{replied_to_message}</span>
-							</div>
-						{/if}
-						<div class="message-box" {id}>
-							<span>{message}</span>
-							<button class="reply-btn" on:click={() => reply(id)} />
+<div class="container max-w-xl mx-auto px-2 flex flex-col gap-4 bg-surface-100-800-token">
+	{#if session}
+		<div
+			class="w-full p-4 h-full overflow-y-auto space-y-4"
+			bind:this={div}
+			on:scroll={backRead}
+			class:disable-scroll={isLoading}
+		>
+			{#each $chat as { id, created_at, author, text }, key}
+				{#if author.id == session.user.id}
+					<div class="grid grid-cols-[1fr_auto] gap-2">
+						<div class="card p-4 variant-glass-primary rounded-tr-none space-y-2">
+							<header class="flex justify-between items-center">
+								<p class="font-bold">{author.display_name}</p>
+								<small class="opacity-50">{created_at}</small>
+							</header>
+							<p>{text}</p>
 						</div>
-					{/key}
-					<div class="info">
-						<small>
-							<span class="username"> foobaer </span>
-							-
-							<span class="time">
-								{created_at}
-							</span>
-						</small>
+						<Avatar src="https://i.pravatar.cc/" width="w-12" />
 					</div>
-				</div>
-			</div>
-		{/each}
-	</div>
+				{:else}
+					<div class="grid grid-cols-[auto_1fr] gap-2">
+						<Avatar src="https://i.pravatar.cc/" width="w-12" />
+						<div
+							class="card p-4 rounded-tl-none variant-outlined-surface bg-surface-50-900-token space-y-2"
+						>
+							<header class="flex justify-between items-center">
+								<p class="font-bold">{author.display_name}</p>
+								<small class="opacity-50">{created_at}</small>
+							</header>
+							<p>{text}</p>
+						</div>
+					</div>
+				{/if}
+			{/each}
+		</div>
+	{/if}
 </div>
-
-<style>
-	.chat-loading {
-		position: relative;
-	}
-
-	.chat-loading::before {
-		position: absolute;
-		content: ' ';
-		background: #0000005c;
-		width: 100%;
-		height: 100%;
-		z-index: 999;
-		/* display: grid;
-      place-content: center;
-      font-size: 40px; */
-	}
-
-	.disable-scroll {
-		overflow: hidden;
-		filter: blur(4px);
-	}
-</style>

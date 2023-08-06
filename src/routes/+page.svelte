@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import CurrentMeetingDisplay from '$components/CurrentMeetingDisplay.svelte';
 	import PastMeetings from '$components/PastMeetings.svelte';
+	import ChatWindow from '$components/ChatWindow.svelte';
 	export let data;
 
 	$: ({ session, supabase } = data);
@@ -33,8 +34,8 @@
 	}
 </script>
 
-<div class="h-full">
-	<AppBar class="sticky z-10 top-0">
+<div class="h-full flex flex-col">
+	<AppBar>
 		<svelte:fragment slot="lead">
 			<DrawerMenu {session} />
 			<h1 class="ml-1 text-xl">Currently Reading</h1>
@@ -50,11 +51,12 @@
 			{/if}
 		</svelte:fragment>
 	</AppBar>
-	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
+	<!-- <div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
 		{#if $currentMeeting}
 			<CurrentMeetingDisplay {currentMeeting} {session} />
 		{/if}
-	</div>
+	</div> -->
+	<ChatWindow {session} />
 
-	<PastMeetings {pastMeetings} />
+	<!-- <PastMeetings {pastMeetings} /> -->
 </div>
