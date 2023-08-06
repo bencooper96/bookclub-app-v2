@@ -1,13 +1,15 @@
 import { supabase } from '$lib/supabaseClient';
 import { writable, get } from 'svelte/store';
 
-type Message = {
+export type Author = {
+	id: string;
+	display_name: string;
+	profile_img_url: string;
+};
+
+export type Message = {
 	id: number;
-	author: {
-		id: string;
-		display_name: string;
-		profile_img_url: string;
-	};
+	author: Author;
 	text: string;
 	created_at: Date;
 };
@@ -75,9 +77,8 @@ export const loadMore = async () => {
 	//   chat.set(data.reverse())
 };
 
-export const sendMessage = async () => {
-	//   const { data, error } = await supabase
-	//     .from(tableName)
-	//     .insert([{ username, message, replied_to_id, replied_to_message, replied_to_username }])
-	//   loadChat()
+export const createMessage = async (message: string, author: string) => {
+	// Creates a new message in the database
+	const { data, error } = await supabase.from(TABLE_NAME).insert([{ text: message, author }]);
+	if (error) console.log(error);
 };

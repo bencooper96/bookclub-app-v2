@@ -1,17 +1,28 @@
 <script lang="ts">
-	import { beforeUpdate, afterUpdate, onMount } from 'svelte';
-	import { chat, loadMore, loadChat } from '$lib/stores/messages';
-	import { createEventDispatcher } from 'svelte';
+	import { onMount } from 'svelte';
+	import { chat, loadMore, loadChat, createMessage, type Message } from '$lib/stores/messages';
 	import { get } from 'svelte/store';
-	import { Avatar } from '@skeletonlabs/skeleton';
 	import type { Session } from '@supabase/supabase-js';
+	import ChatInput from './inputs/ChatInput.svelte';
+	import ChatMessage from './ChatMessage.svelte';
+	import { getDate } from '$lib/utils/time';
 	export let session: null | Session;
 
 	let isLoading = false;
-	const dispatch = createEventDispatcher();
 	let div: HTMLDivElement;
 
 	$: $chat = get(chat);
+	// group by day
+	$: messagesByDate = $chat.reduce((acc: Record<string, Message[]>, curr) => {
+		const date = getDate(curr.created_at);
+		if (acc[date]) {
+			acc[date].push(curr);
+		} else {
+			acc[date] = [curr];
+		}
+		return acc;
+	}, {});
+
 	onMount(() => {
 		isLoading = true;
 		loadChat();
@@ -26,47 +37,40 @@
 		}
 	};
 
-	const reply = async (id: string) => {
+	const sendMessage = async (event: CustomEvent) => {
+		const { message } = event.detail;
+		if (!session) return;
+		await createMessage(message, session.user.id);
 		div.scrollTo(0, div.scrollHeight);
-		console.log('called reply');
 	};
 </script>
 
-<div class="container max-w-xl mx-auto px-2 flex flex-col gap-4 bg-surface-100-800-token">
+<div class="container max-w-xl h-full mx-auto flex flex-col gap-4 bg-surface-100-800-token">
 	{#if session}
 		<div
-			class="w-full p-4 h-full overflow-y-auto space-y-4"
+			class="w-full p-4 h-full overflow-y-auto space-y-4 hide-scrollbar"
 			bind:this={div}
 			on:scroll={backRead}
-			class:disable-scroll={isLoading}
 		>
-			{#each $chat as { id, created_at, author, text }, key}
-				{#if author.id == session.user.id}
-					<div class="grid grid-cols-[1fr_auto] gap-2">
-						<div class="card p-4 variant-glass-primary rounded-tr-none space-y-2">
-							<header class="flex justify-between items-center">
-								<p class="font-bold">{author.display_name}</p>
-								<small class="opacity-50">{created_at}</small>
-							</header>
-							<p>{text}</p>
-						</div>
-						<Avatar src="https://i.pravatar.cc/" width="w-12" />
+			{#each Object.keys(messagesByDate) as date}
+				<div class="flex flex-col gap-2 border-t first:border-none border-surface-200-700-token">
+					<div class="text-center text-sm text-surface-400-500-token py-1">
+						<span class="py-2">
+							{date}
+						</span>
 					</div>
-				{:else}
-					<div class="grid grid-cols-[auto_1fr] gap-2">
-						<Avatar src="https://i.pravatar.cc/" width="w-12" />
-						<div
-							class="card p-4 rounded-tl-none variant-outlined-surface bg-surface-50-900-token space-y-2"
-						>
-							<header class="flex justify-between items-center">
-								<p class="font-bold">{author.display_name}</p>
-								<small class="opacity-50">{created_at}</small>
-							</header>
-							<p>{text}</p>
-						</div>
-					</div>
-				{/if}
+					{#each messagesByDate[date] as { id, created_at, author, text }}
+						<ChatMessage
+							{id}
+							{created_at}
+							{author}
+							{text}
+							isFromCurrentUser={author.id == session.user.id}
+						/>
+					{/each}
+				</div>
 			{/each}
 		</div>
+		<ChatInput on:sendMessage={sendMessage} />
 	{/if}
 </div>
