@@ -16,7 +16,8 @@ export type Message = {
 
 export const chat = writable<Message[]>([]);
 
-const INIT_CHAT_COUNT = 25;
+const INIT_CHAT_COUNT = 10;
+let chatCount = INIT_CHAT_COUNT;
 const TABLE_NAME = 'messages';
 
 export const loadChat = async () => {
@@ -39,7 +40,6 @@ export const loadChat = async () => {
 				table: TABLE_NAME
 			},
 			async (payload) => {
-				console.log('payload', payload);
 				const { eventType, old: oldMessage, new: newMessage } = payload;
 				if (eventType === 'INSERT') {
 					const { data: author } = await supabase
@@ -69,12 +69,14 @@ export function addMessage(message: Message) {
 }
 
 export const loadMore = async () => {
-	//   const { data, error } = await supabase
-	//     .from(tableName)
-	//     .select()
-	//     .order('id', { ascending: false })
-	//     .limit((INIT_CHAT_COUNT += 5))
-	//   chat.set(data.reverse())
+	chatCount += 5;
+	const { data, error } = await supabase
+		.from(TABLE_NAME)
+		.select(`*, author ( profile_img_url, display_name, id)`)
+		.order('id', { ascending: false })
+		.limit(chatCount);
+	if (!data) return;
+	chat.set(data.reverse());
 };
 
 export const createMessage = async (message: string, author: string) => {

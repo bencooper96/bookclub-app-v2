@@ -24,7 +24,7 @@
 	<AppBar class="h-16">
 		<svelte:fragment slot="lead">
 			<a href="/">
-				<Icon icon="mdi:arrow-left" class="w-6 h-6" />
+				<Icon icon="lucide:arrow-left" class="w-6 h-6" />
 			</a>
 		</svelte:fragment>
 		<h1 class="text-xl">Profile</h1>

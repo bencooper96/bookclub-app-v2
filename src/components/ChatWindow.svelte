@@ -6,6 +6,7 @@
 	import ChatInput from './inputs/ChatInput.svelte';
 	import ChatMessage from './ChatMessage.svelte';
 	import { getDate } from '$lib/utils/time';
+	import Icon from '@iconify/svelte';
 	export let session: null | Session;
 
 	let isLoading = false;
@@ -40,16 +41,25 @@
 		div.scrollTo(0, div.scrollHeight);
 	});
 
-	const backRead = async (e: any) => {
+	const handleScroll = async (e: any) => {
+		autoscrolling = false;
 		let clientHeight = e.srcElement.scrollTop;
 		if (clientHeight == 0) {
 			isLoading = true;
 			await loadMore();
 			isLoading = false;
+			setTimeout(() => {
+				div.scrollTo({ left: 0, top: 40, behavior: 'smooth' });
+			}, 250);
+		}
+
+		if (clientHeight == div.scrollHeight - div.clientHeight) {
+			autoscrolling = true;
 		}
 	};
 
 	const sendMessage = async (event: CustomEvent) => {
+		autoscrolling = true;
 		const { message } = event.detail;
 		if (!session) return;
 		await createMessage(message, session.user.id);
@@ -61,10 +71,13 @@
 		<div
 			class="w-full p-4 overflow-y-auto space-y-4 hide-scrollbar"
 			bind:this={div}
-			on:scroll={backRead}
+			on:scroll={handleScroll}
 		>
+			<span class:invisible={!isLoading} class="flex justify-center">
+				<Icon icon="lucide:loader-2" class="w-6 h-6 animate-spin text-surface-400-500-token" />
+			</span>
 			{#each Object.keys(messagesByDate) as date}
-				<div class="flex flex-col gap-2 border-t first:border-none border-surface-200-700-token">
+				<div class="flex flex-col gap-2">
 					<div class="text-center text-sm text-surface-400-500-token py-1">
 						<span class="py-2">
 							{date}

@@ -13,7 +13,7 @@
 <div class="flex flex-row justify-between items-center">
 	{#if $currentMeeting.book}
 		<div class="flex flex-row -mx-2">
-			<Icon icon="mdi:book" class="w-16 h-16 text-surface-800-100-token" />
+			<Icon icon="lucide:book" class="w-16 h-16 text-surface-800-100-token" />
 			<div>
 				<h2 class="text-4xl -mb-1 font-bold">{$currentMeeting.book?.title}</h2>
 				<h4 class="text-xl text-surface-800-100-token font-bold">

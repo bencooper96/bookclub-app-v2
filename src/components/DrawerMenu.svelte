@@ -24,7 +24,7 @@
 </script>
 
 <button on:click={openMenu}>
-	<Icon icon="mdi:menu" class="w-6 h-6" />
+	<Icon icon="lucide:menu" class="w-6 h-6" />
 </button>
 <Drawer class="z-50">
 	<div class="flex flex-col justify-between p-4 pt-10 h-full text-surface-900-50-token">
@@ -35,7 +35,7 @@
 					class={`flex flex-row items-center gap-1 ${$page.url.pathname == '/' && 'font-bold'}`}
 					on:click={closeMenu}
 				>
-					<Icon icon="mdi:home" class="w-7 h-7" />
+					<Icon icon="lucide:home" class="w-7 h-7" />
 					Home
 				</a>
 			</li>
@@ -48,7 +48,7 @@
 					}`}
 					on:click={closeMenu}
 				>
-					<Icon icon="mdi:book-plus" class="w-7 h-7" />
+					<Icon icon="lucide:book-plus" class="w-7 h-7" />
 					Add a book
 				</a>
 			</li>
@@ -60,7 +60,7 @@
 					}`}
 					on:click={closeMenu}
 				>
-					<Icon icon="mdi:calendar-plus" class="w-7 h-7" />
+					<Icon icon="lucide:calendar-plus" class="w-7 h-7" />
 					Add a meeting
 				</a>
 			</li>
@@ -71,26 +71,26 @@
 				<div class="flex flex-row justify-between items-center">
 					<h3 class="text-lg font-bold uppercase text-surface-800-100-token">🚧 Coming soon</h3>
 					<a href="https://github.com/bencooper96/bookclub-app-v2" target="_blank" rel="noopener">
-						<Icon icon="mdi:github" class="w-5 h-5" />
+						<Icon icon="lucide:github" class="w-5 h-5" />
 					</a>
 				</div>
 				<hr />
 				<ul class="flex flex-col gap-1 text-xl mt-1">
 					<li>
 						<span class="flex flex-row items-center gap-1 opacity-50">
-							<Icon icon="mdi:books" class="w-7 h-7" />
+							<Icon icon="lucide:book-copy" class="w-7 h-7" />
 							Reading history
 						</span>
 					</li>
 					<li>
 						<span class="flex flex-row items-center gap-1 opacity-50">
-							<Icon icon="mdi:calendar-clock" class="w-7 h-7" />
+							<Icon icon="lucide:calendar-clock" class="w-7 h-7" />
 							Attendance
 						</span>
 					</li>
 					<li>
 						<span class="flex flex-row items-center gap-1 opacity-50">
-							<Icon icon="mdi:calendar" class="w-7 h-7" />
+							<Icon icon="lucide:calendar" class="w-7 h-7" />
 							Schedule
 						</span>
 					</li>
