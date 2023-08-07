@@ -13,6 +13,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { getTimezoneOffset } from '$lib/utils/time.js';
 
 	export let data;
 	$: ({ session } = data);
@@ -140,6 +141,7 @@
 					/>
 				</div>
 			</div>
+			<input class="hidden" type="text" name="timezoneOffset" value={getTimezoneOffset()} />
 			<button type="submit" class="mt-4">Create meeting</button>
 		</form>
 	</div>
