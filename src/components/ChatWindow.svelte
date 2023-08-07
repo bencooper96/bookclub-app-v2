@@ -66,7 +66,7 @@
 	};
 </script>
 
-<div class="container max-w-2xl flex-grow mx-auto chat-window">
+<div class="container max-w-2xl flex-grow mx-auto pt-16 md:pt-0 chat-window">
 	{#if session}
 		<div
 			class="w-full p-4 overflow-y-auto space-y-4 hide-scrollbar"
@@ -101,7 +101,7 @@
 
 <style>
 	.chat-window {
-		@apply flex flex-col gap-4 h-full pt-16 justify-end;
+		@apply flex flex-col gap-4 h-full justify-end;
 		@apply bg-white bg-opacity-60 shadow-lg;
 	}
 </style>

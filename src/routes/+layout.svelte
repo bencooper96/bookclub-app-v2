@@ -8,15 +8,17 @@
 
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { Toast } from '@skeletonlabs/skeleton';
+	import { AppBar, Toast } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import { storePopup } from '@skeletonlabs/skeleton';
+	import SideMenu from '$components/SideMenu.svelte';
+	import DrawerMenu from '$components/DrawerMenu.svelte';
 
 	export let data;
 
-	let { supabase, session } = data;
-	$: ({ supabase, session } = data);
+	let { supabase, session, route } = data;
+	$: ({ supabase, session, route } = data);
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	onMount(() => {
@@ -32,13 +34,65 @@
 	});
 
 	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+	// This variable will save the event for later use.
+	let deferredPrompt: ({ prompt: () => void } & Event) | undefined;
+
+	onMount(() => {
+		window.addEventListener('beforeinstallprompt', (e) => {
+			e.preventDefault();
+			deferredPrompt = e as { prompt: () => void } & Event;
+		});
+	});
+
+	function installApp() {
+		deferredPrompt?.prompt();
+	}
+
+	type RouteOptions = {
+		title: string;
+		noMargin?: boolean;
+	};
+
+	const PATHS: Record<NonNullable<typeof route>, RouteOptions> = {
+		'/': { title: 'Home', noMargin: true },
+		'/add/meeting': { title: 'Add Meeting' },
+		'/add/book': { title: 'Add Book or Reading' },
+		'/auth/login': { title: '' },
+		'/auth/sign-up': { title: '' },
+		'/profile': { title: 'Profile' }
+	};
 </script>
 
 <svelte:head>
 	{@html webManifestLink}
 </svelte:head>
-
-<slot />
+<div class="h-full flex flex-col">
+	<AppBar class="fixed top-0 w-full z-40 md:hidden">
+		<svelte:fragment slot="lead">
+			<DrawerMenu {session} />
+			<h1 class="ml-1 text-xl">{route ? PATHS[route].title : ''}</h1>
+		</svelte:fragment>
+		<svelte:fragment slot="trail">
+			{#if deferredPrompt !== undefined}
+				<button
+					class="sm:hidden flex flex-row items-center gap-2 px-4 py-2 text-sm rounded-sm shadow bg-primary-300-600-token text-surface-800"
+					on:click={installApp}
+				>
+					Install</button
+				>
+			{/if}
+		</svelte:fragment>
+	</AppBar>
+	<div
+		class="flex flex-row h-full mt-12 md:mt-0"
+		class:mt-0={route ? PATHS[route].noMargin : false}
+	>
+		<div class="md:block hidden bg-surface-50-900-token">
+			<SideMenu {session} />
+		</div>
+		<slot />
+	</div>
+</div>
 <Toast />
 
 {#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
