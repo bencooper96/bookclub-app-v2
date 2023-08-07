@@ -34,6 +34,6 @@
 
 <style>
 	.pwa-date {
-		visibility: hidden;
+		display: none;
 	}
 </style>

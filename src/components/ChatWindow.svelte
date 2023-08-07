@@ -10,8 +10,19 @@
 
 	let isLoading = false;
 	let div: HTMLDivElement;
+	let autoscrolling = true;
 
 	$: $chat = get(chat);
+	$: $chat && autoScroll();
+	function autoScroll() {
+		if (!div) return;
+		if (autoscrolling) {
+			setTimeout(() => {
+				div.scrollTo({ left: 0, top: div.scrollHeight, behavior: 'smooth' });
+			}, 250);
+		}
+	}
+
 	// group by day
 	$: messagesByDate = $chat.reduce((acc: Record<string, Message[]>, curr) => {
 		const date = getDate(curr.created_at);
@@ -23,9 +34,10 @@
 		return acc;
 	}, {});
 
-	onMount(() => {
+	onMount(async () => {
 		isLoading = true;
-		loadChat();
+		await loadChat();
+		div.scrollTo(0, div.scrollHeight);
 	});
 
 	const backRead = async (e: any) => {
@@ -41,14 +53,13 @@
 		const { message } = event.detail;
 		if (!session) return;
 		await createMessage(message, session.user.id);
-		div.scrollTo(0, div.scrollHeight);
 	};
 </script>
 
-<div class="container max-w-xl h-full mx-auto flex flex-col gap-4 bg-surface-100-800-token">
+<div class="container max-w-2xl flex-grow mx-auto chat-window">
 	{#if session}
 		<div
-			class="w-full p-4 h-full overflow-y-auto space-y-4 hide-scrollbar"
+			class="w-full p-4 overflow-y-auto space-y-4 hide-scrollbar"
 			bind:this={div}
 			on:scroll={backRead}
 		>
@@ -74,3 +85,10 @@
 		<ChatInput on:sendMessage={sendMessage} />
 	{/if}
 </div>
+
+<style>
+	.chat-window {
+		@apply flex flex-col gap-4 h-full pt-16 justify-end;
+		@apply bg-white bg-opacity-60 shadow-lg;
+	}
+</style>

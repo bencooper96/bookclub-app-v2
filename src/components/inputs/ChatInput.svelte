@@ -7,6 +7,7 @@
 	const sendMessage = () => {
 		dispatch('sendMessage', { message });
 		message = '';
+		isExpanded = false;
 	};
 
 	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
@@ -27,7 +28,7 @@
 </script>
 
 <div
-	class="border-t border-surface-600-300-token bg-surface-200-700-token flex flex-row"
+	class="border-t border-surface-600-300-token bg-surface-50-900-token flex flex-row"
 	use:clickOutside={() => {
 		isExpanded = false;
 	}}
@@ -35,7 +36,7 @@
 	<textarea
 		class="flex-1 p-4 bg-transparent border-none"
 		placeholder="Type a message"
-		rows={isExpanded ? 3 : 1}
+		rows={isExpanded ? 4 : 1}
 		on:click={() => {
 			isExpanded = true;
 		}}

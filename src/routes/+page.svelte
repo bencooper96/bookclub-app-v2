@@ -35,15 +35,15 @@
 </script>
 
 <div class="h-full flex flex-col">
-	<AppBar>
+	<AppBar class="fixed top-0 w-full z-40">
 		<svelte:fragment slot="lead">
 			<DrawerMenu {session} />
-			<h1 class="ml-1 text-xl">Currently Reading</h1>
+			<h1 class="ml-1 text-xl">Home</h1>
 		</svelte:fragment>
 		<svelte:fragment slot="trail">
 			{#if deferredPrompt !== undefined}
 				<button
-					class="sm:hidden flex flex-row items-center gap-2 px-4 py-2 rounded-sm shadow bg-primary-300-600-token text-surface-800"
+					class="sm:hidden flex flex-row items-center gap-2 px-4 py-2 text-sm rounded-sm shadow bg-primary-300-600-token text-surface-800"
 					on:click={installApp}
 				>
 					Install</button

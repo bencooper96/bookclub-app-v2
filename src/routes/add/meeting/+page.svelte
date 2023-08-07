@@ -98,7 +98,7 @@
 					}
 				};
 			}}
-			class="flex flex-col gap-2 mt-2 p-2 rounded-sm bg-surface-50-900-token shadow-xl"
+			class="flex flex-col gap-2 mt-2 px-2 py-3 rounded bg-surface-50-900-token shadow-xl"
 		>
 			<input type="hidden" name="bookId" value={bookId} />
 			<div class="w-full">
