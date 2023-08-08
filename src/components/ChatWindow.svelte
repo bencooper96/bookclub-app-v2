@@ -19,7 +19,7 @@
 		if (!div) return;
 		if (autoscrolling) {
 			setTimeout(() => {
-				div.scrollTo({ left: 0, top: div.scrollHeight, behavior: 'smooth' });
+				scrollToBottom();
 			}, 250);
 		}
 	}
@@ -38,7 +38,7 @@
 	onMount(async () => {
 		isLoading = true;
 		await loadChat();
-		div.scrollTo(0, div.scrollHeight);
+		scrollToBottom();
 	});
 
 	const handleScroll = async (e: any) => {
@@ -64,12 +64,16 @@
 		if (!session) return;
 		await createMessage(message, session.user.id);
 	};
+
+	function scrollToBottom() {
+		div.scrollTo({ left: 0, top: div.scrollHeight, behavior: 'smooth' });
+	}
 </script>
 
-<div class="container max-w-2xl flex-grow mx-auto pt-16 md:pt-0 chat-window">
+<div class="container flex-grow md:mx-1 pt-16 md:pt-0 chat-window">
 	{#if session}
 		<div
-			class="w-full p-4 overflow-y-auto space-y-4 hide-scrollbar"
+			class="w-full md:px-12 lg:px-40 p-4 overflow-y-auto space-y-4 hide-scrollbar"
 			bind:this={div}
 			on:scroll={handleScroll}
 		>
@@ -95,13 +99,13 @@
 				</div>
 			{/each}
 		</div>
-		<ChatInput on:sendMessage={sendMessage} />
+		<ChatInput on:sendMessage={sendMessage} on:click={scrollToBottom} />
 	{/if}
 </div>
 
 <style>
 	.chat-window {
 		@apply flex flex-col gap-4 h-full justify-end;
-		@apply bg-white bg-opacity-60 shadow-lg;
+		@apply bg-white bg-opacity-50 shadow-lg;
 	}
 </style>

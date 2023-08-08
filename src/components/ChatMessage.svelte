@@ -20,7 +20,7 @@
 				<p class="font-bold opacity-70">{author.display_name}</p>
 				<small class="opacity-50">{timestamp}</small>
 			</header>
-			<p>{text}</p>
+			<p class="whitespace-pre-line">{text}</p>
 		</div>
 		<Avatar src={author.profile_img_url} initials={getInitials(author.display_name)} width="w-12" />
 	</div>
@@ -34,7 +34,7 @@
 				<p class="font-bold opacity-70">{author.display_name}</p>
 				<small class="opacity-50">{timestamp}</small>
 			</header>
-			<p>{text}</p>
+			<p class="whitespace-pre-line">{text}</p>
 		</div>
 	</div>
 {/if}

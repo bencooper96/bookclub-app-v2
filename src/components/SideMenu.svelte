@@ -10,7 +10,7 @@
 	$: email = session?.user.email;
 </script>
 
-<div class="flex flex-col justify-between p-4 pt-10 h-full text-surface-900-50-token">
+<div class="flex flex-col justify-between p-4 pt-10 h-full text-surface-900-50-token md:w-64">
 	<ul class="flex flex-col gap-4 text-2xl">
 		<li>
 			<a
