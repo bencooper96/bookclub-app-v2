@@ -8,7 +8,7 @@
 	import { onMount } from 'svelte';
 	import CurrentMeetingDisplay from '$components/CurrentMeetingDisplay.svelte';
 	import PastMeetings from '$components/PastMeetings.svelte';
-	import ChatWindow from '$components/ChatWindow.svelte';
+	import ChatWindow from '$components/chat/ChatWindow.svelte';
 	import SideMenu from '$components/SideMenu.svelte';
 	export let data;
 

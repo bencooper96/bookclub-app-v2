@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { Avatar } from '@skeletonlabs/skeleton';
-	import type { Author } from '$lib/stores/messages';
+	import type { Message } from '$lib/stores/messages';
 	import { getInitials } from '$lib/utils/avatarUtils';
 	import { formatTime } from '$lib/utils/time';
+	import ChatReactions from './ChatReactions.svelte';
 
-	export let id;
-	export let created_at: Date;
-	export let author: Author;
-	export let text: string;
+	export let message: Message;
+	const { id, created_at, author, text, reactions } = message;
+
 	export let isFromCurrentUser: boolean;
 
 	$: timestamp = formatTime(created_at, 'h:mm a');
@@ -21,6 +21,7 @@
 				<small class="opacity-50">{timestamp}</small>
 			</header>
 			<p class="whitespace-pre-line">{text}</p>
+			<ChatReactions messageId={id} {reactions} />
 		</div>
 		<Avatar src={author.profile_img_url} initials={getInitials(author.display_name)} width="w-12" />
 	</div>

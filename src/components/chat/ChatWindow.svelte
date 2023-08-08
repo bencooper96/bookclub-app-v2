@@ -3,7 +3,7 @@
 	import { chat, loadMore, loadChat, createMessage, type Message } from '$lib/stores/messages';
 	import { get } from 'svelte/store';
 	import type { Session } from '@supabase/supabase-js';
-	import ChatInput from './inputs/ChatInput.svelte';
+	import ChatInput from './ChatInput.svelte';
 	import ChatMessage from './ChatMessage.svelte';
 	import { getDate } from '$lib/utils/time';
 	import Icon from '@iconify/svelte';
@@ -87,14 +87,8 @@
 							{date}
 						</span>
 					</div>
-					{#each messagesByDate[date] as { id, created_at, author, text }}
-						<ChatMessage
-							{id}
-							{created_at}
-							{author}
-							{text}
-							isFromCurrentUser={author.id == session.user.id}
-						/>
+					{#each messagesByDate[date] as message}
+						<ChatMessage {message} isFromCurrentUser={message.author.id == session.user.id} />
 					{/each}
 				</div>
 			{/each}
