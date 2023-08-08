@@ -4,7 +4,6 @@
 	import { Avatar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	export let messageId: number;
 	export let reactions: Reaction[];
-	let showTooltip = false;
 
 	type GroupedReactions = {
 		[key: string]: Reaction[];
