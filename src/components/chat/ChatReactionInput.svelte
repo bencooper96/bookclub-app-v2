@@ -21,15 +21,7 @@
 	const REACTION_OPTIONS = ['👍', '👎', '❤️', '🔥', '👀'];
 </script>
 
-<div
-	class="relative"
-	transition:slide|local={{
-		delay: 250,
-		duration: 300,
-		easing: expoOut,
-		axis: 'x'
-	}}
->
+<div>
 	<div class="card px-4 variant-filled-surface" data-popup="reactionsPanel">
 		<div class="flex flex-row gap-1">
 			{#each REACTION_OPTIONS as emoji}

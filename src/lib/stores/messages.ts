@@ -27,8 +27,9 @@ const MESSAGE_QUERY = `
 	author ( profile_img_url, display_name, id), 
 	reactions (id, emoji, user ( profile_img_url, display_name, id))
 `;
-const INIT_CHAT_COUNT = 10;
-let chatCount = INIT_CHAT_COUNT;
+const INIT_CHAT_INDEX = 7;
+const CHAT_INCREMENT = 5;
+let chatCount = INIT_CHAT_INDEX;
 const TABLE_NAME = 'messages';
 
 export const loadChat = async () => {
@@ -36,7 +37,7 @@ export const loadChat = async () => {
 		.from(TABLE_NAME)
 		.select(MESSAGE_QUERY)
 		.order('created_at', { ascending: false })
-		.limit(INIT_CHAT_COUNT);
+		.range(0, INIT_CHAT_INDEX);
 
 	if (!data) return;
 
@@ -80,14 +81,14 @@ export function addMessage(message: Message) {
 }
 
 export const loadMore = async () => {
-	chatCount += 5;
 	const { data, error } = await supabase
 		.from(TABLE_NAME)
 		.select(MESSAGE_QUERY)
-		.order('id', { ascending: false })
-		.limit(chatCount);
+		.order('created_at', { ascending: false })
+		.range(chatCount + 1, chatCount + CHAT_INCREMENT);
 	if (!data) return;
-	chat.set(data.reverse());
+	chat.set([...data.reverse(), ...get(chat)]);
+	chatCount += CHAT_INCREMENT;
 };
 
 export const createMessage = async (message: string, author: string) => {

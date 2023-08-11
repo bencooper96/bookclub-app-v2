@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { chat, loadMore, loadChat, createMessage, type Message } from '$lib/stores/messages';
-	import { get } from 'svelte/store';
 	import type { Session } from '@supabase/supabase-js';
 	import ChatInput from './ChatInput.svelte';
 	import ChatMessage from './ChatMessage.svelte';
@@ -13,7 +12,6 @@
 	let div: HTMLDivElement;
 	let autoscrolling = true;
 
-	$: $chat = get(chat);
 	$: $chat && autoScroll();
 	function autoScroll() {
 		if (!div) return;
@@ -80,14 +78,14 @@
 			<span class:invisible={!isLoading} class="flex justify-center">
 				<Icon icon="lucide:loader-2" class="w-6 h-6 animate-spin text-surface-400-500-token" />
 			</span>
-			{#each Object.keys(messagesByDate) as date}
+			{#each Object.keys(messagesByDate) as date (date)}
 				<div class="flex flex-col gap-2">
 					<div class="text-center text-sm text-surface-400-500-token py-1">
 						<span class="py-2">
 							{date}
 						</span>
 					</div>
-					{#each messagesByDate[date] as message}
+					{#each messagesByDate[date] as message (message.id)}
 						<ChatMessage {message} isFromCurrentUser={message.author.id == session.user.id} />
 					{/each}
 				</div>
