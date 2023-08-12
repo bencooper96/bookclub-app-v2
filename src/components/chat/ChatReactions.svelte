@@ -3,6 +3,7 @@
 
 	import { createEventDispatcher } from 'svelte';
 	import ChatReactionInput from './ChatReactionInput.svelte';
+	import { fade } from 'svelte/transition';
 
 	const dispatch = createEventDispatcher();
 	export let messageId: number;
@@ -40,8 +41,8 @@
 	};
 </script>
 
-<div class="flex flex-row gap-1 mt-2 w-min">
-	{#each Object.entries(groupedReactions) as [emoji, reactionGroup]}
+<div class="flex flex-row gap-1 mt-2 w-min h-6">
+	{#each Object.entries(groupedReactions) as [emoji, reactionGroup] (`${emoji}-${messageId}`)}
 		<button
 			class="btn variant-ghost btn-sm [&>*]:pointer-events-none"
 			on:click={() => {
@@ -53,6 +54,7 @@
 				}
 			}}
 			class:bg-primary-400={userHasReacted(emoji)}
+			transition:fade={{ duration: 200 }}
 		>
 			<span class="text-sm">
 				{emoji}

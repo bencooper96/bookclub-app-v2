@@ -11,7 +11,7 @@
 	export let currentUser: string;
 	export let message: Message;
 	const { id, created_at, author, text } = message;
-	$: reactions = message.reactions || [];
+	$: reactions = message.reactions;
 
 	$: isFromCurrentUser = author.id === currentUser;
 
