@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { AVATAR_BG_LIST, REACTION_OPTIONS, type Reaction } from '$lib/stores/messages';
-	import { getInitials } from '$lib/utils/avatarUtils';
+	import { REACTION_OPTIONS, type Reaction } from '$lib/stores/messages';
 
 	import { createEventDispatcher } from 'svelte';
 	import ChatReactionInput from './ChatReactionInput.svelte';

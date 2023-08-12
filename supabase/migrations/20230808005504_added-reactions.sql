@@ -13,9 +13,11 @@ CREATE UNIQUE INDEX reactions_pkey ON public.reactions USING btree (id);
 
 alter table "public"."reactions" add constraint "reactions_pkey" PRIMARY KEY using index "reactions_pkey";
 
-alter table "public"."reactions" add constraint "reactions_message_fkey" FOREIGN KEY (message) REFERENCES messages(id) not valid;
+alter table "public"."reactions" add constraint "reactions_message_fkey" FOREIGN KEY (message) REFERENCES messages(id) on delete cascade not valid;
 
 alter table "public"."reactions" validate constraint "reactions_message_fkey";
+
+
 
 alter table "public"."reactions" add constraint "reactions_user_fkey" FOREIGN KEY ("user") REFERENCES user_profiles(id) not valid;
 

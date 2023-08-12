@@ -1,10 +1,13 @@
 <script lang="ts">
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { Avatar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import type { Message } from '$lib/stores/messages';
 	import { getInitials } from '$lib/utils/avatarUtils';
 	import { formatTime } from '$lib/utils/time';
 	import ChatReactions from './ChatReactions.svelte';
+	import Icon from '@iconify/svelte';
+	import { createEventDispatcher } from 'svelte';
 
+	const dispatch = createEventDispatcher();
 	export let currentUser: string;
 	export let message: Message;
 	const { id, created_at, author, text } = message;
@@ -13,6 +16,12 @@
 	$: isFromCurrentUser = author.id === currentUser;
 
 	$: timestamp = formatTime(created_at, 'h:mm a');
+
+	const messageOptionsMenu: PopupSettings = {
+		event: 'click',
+		target: `message-options-panel-${message.id}`,
+		placement: 'bottom-end'
+	};
 </script>
 
 {#if isFromCurrentUser}
@@ -20,8 +29,20 @@
 		<div class="card px-4 py-2 variant-glass-primary rounded-tr-none space-y-2">
 			<header class="flex justify-between items-center">
 				<p class="font-bold opacity-70">{author.display_name}</p>
-				<div class="flex flex-row gap-2">
+				<div class="flex flex-row gap-2 justify-center items-center">
 					<small class="opacity-50">{timestamp}</small>
+					<div
+						class="card px-4 variant-filled-surface"
+						data-popup={`message-options-panel-${message.id}`}
+					>
+						<div class="btn-group-vertical">
+							<button on:click={() => dispatch('deleteMessage', { messageId: id })}>Delete</button>
+						</div>
+						<div class="arrow variant-filled-surface" />
+					</div>
+					<button use:popup={messageOptionsMenu}>
+						<Icon icon="lucide:more-horizontal" class="w-4 h-4" />
+					</button>
 				</div>
 			</header>
 			<p class="whitespace-pre-line">{text}</p>

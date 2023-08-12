@@ -7,7 +7,8 @@
 		createMessage,
 		type Message,
 		createReaction,
-		deleteReaction
+		deleteReaction,
+		deleteMessageById
 	} from '$lib/stores/messages';
 	import type { Session } from '@supabase/supabase-js';
 	import ChatInput from './ChatInput.svelte';
@@ -86,6 +87,12 @@
 		const { reactionId } = event.detail;
 		deleteReaction(reactionId);
 	}
+
+	function handleDeleteMessage(event: CustomEvent) {
+		if (!session) return;
+		const { messageId } = event.detail;
+		deleteMessageById(messageId);
+	}
 </script>
 
 <div class="container flex-grow md:mx-1 pt-16 md:pt-0 chat-window">
@@ -111,6 +118,7 @@
 							currentUser={session.user.id}
 							on:addReaction={addReaction}
 							on:removeReaction={removeReaction}
+							on:deleteMessage={handleDeleteMessage}
 						/>
 					{/each}
 				</div>

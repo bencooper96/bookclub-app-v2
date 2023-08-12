@@ -63,23 +63,23 @@ export const loadChat = async () => {
 						.select('*')
 						.eq('id', newMessage.author);
 					if (!author) return;
-					addMessage({ ...newMessage, author: author[0] } as Message);
+					addMessageToStore({ ...newMessage, author: author[0] } as Message);
 				}
 				if (eventType === 'DELETE') {
-					deleteMessage(oldMessage.id);
+					removeMessageFromStore(oldMessage.id);
 				}
 			}
 		)
 		.subscribe();
 };
 
-export function deleteMessage(id: number) {
+export function removeMessageFromStore(id: number) {
 	const chatStore = get(chat);
 	const newChat = chatStore.filter((message) => message.id !== id);
 	chat.set(newChat);
 }
 
-export function addMessage(message: Message) {
+export function addMessageToStore(message: Message) {
 	const chatStore = get(chat);
 	chat.set([...chatStore, message]);
 }
@@ -98,6 +98,12 @@ export const loadMore = async () => {
 export const createMessage = async (message: string, author: string) => {
 	// Creates a new message in the database
 	const { data, error } = await supabase.from(TABLE_NAME).insert([{ text: message, author }]);
+	if (error) console.log(error);
+};
+
+export const deleteMessageById = async (id: number) => {
+	// Deletes a message from the database
+	const { data, error } = await supabase.from(TABLE_NAME).delete().match({ id });
 	if (error) console.log(error);
 };
 

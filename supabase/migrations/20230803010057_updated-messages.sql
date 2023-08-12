@@ -29,7 +29,7 @@ on "public"."messages"
 as permissive
 for delete
 to public
-using ((auth.uid() = author));
+using (true);
 
 
 create policy "Enable insert for authenticated users only"
