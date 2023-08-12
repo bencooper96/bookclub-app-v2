@@ -51,6 +51,7 @@
 	const handleScroll = async (e: any) => {
 		autoscrolling = false;
 		let clientHeight = e.srcElement?.scrollTop;
+		console.log('called', clientHeight, div.scrollHeight - div.clientHeight);
 		if (clientHeight === 0) {
 			isLoading = true;
 			await loadMore();
@@ -74,6 +75,7 @@
 
 	function scrollToBottom() {
 		div?.scrollTo({ left: 0, top: div.scrollHeight, behavior: 'smooth' });
+		isLoading = false;
 	}
 
 	function addReaction(event: CustomEvent) {
@@ -95,7 +97,7 @@
 	}
 </script>
 
-<div class="container flex-grow md:mx-1 pt-16 md:pt-0 chat-window">
+<div class="container pt-16 -mt-12 md:pt-0 md:mt-0 chat-window">
 	{#if session}
 		<div
 			class="w-full md:px-12 lg:px-40 p-4 overflow-y-auto space-y-4 hide-scrollbar"
@@ -124,13 +126,13 @@
 				</div>
 			{/each}
 		</div>
-		<ChatInput on:sendMessage={sendMessage} on:click={scrollToBottom} />
+		<ChatInput on:sendMessage={sendMessage} on:scrollToBottom={scrollToBottom} />
 	{/if}
 </div>
 
 <style>
 	.chat-window {
-		@apply flex flex-col gap-4 h-full justify-end;
-		@apply bg-white bg-opacity-50 shadow-lg;
+		@apply flex flex-col h-screen justify-end;
+		@apply bg-white bg-opacity-50;
 	}
 </style>

@@ -87,7 +87,7 @@
 		class="flex flex-row h-full mt-12 md:mt-0"
 		class:mt-0={route ? PATHS[route].noMargin : false}
 	>
-		<div class="md:block hidden bg-surface-50-900-token">
+		<div class="md:block hidden bg-surface-50-900-token shadow-lg">
 			<SideMenu {session} />
 		</div>
 		<slot />

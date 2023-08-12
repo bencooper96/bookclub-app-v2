@@ -154,19 +154,19 @@ export const loadMore = async () => {
 
 export const createMessage = async (message: string, author: string) => {
 	// Creates a new message in the database
-	const { data, error } = await supabase.from('messages').insert([{ text: message, author }]);
+	const { error } = await supabase.from('messages').insert([{ text: message, author }]);
 	if (error) console.log(error);
 };
 
 export const deleteMessageById = async (id: number) => {
 	// Deletes a message from the database
-	const { data, error } = await supabase.from('messages').delete().match({ id });
+	const { error } = await supabase.from('messages').delete().match({ id });
 	if (error) console.log(error);
 };
 
 export const createReaction = async (messageId: number, emoji: string, userId: string) => {
 	// Adds a reaction to a message
-	const { data, error } = await supabase
+	const { error } = await supabase
 		.from('reactions')
 		.insert([{ message: messageId, emoji, user: userId }])
 		.select('id, emoji, user ( profile_img_url, display_name, id)');
@@ -175,10 +175,6 @@ export const createReaction = async (messageId: number, emoji: string, userId: s
 
 export const deleteReaction = async (reactionId: number) => {
 	// Removes a reaction from a message
-	const { data, error } = await supabase
-		.from('reactions')
-		.delete()
-		.match({ id: reactionId })
-		.select();
+	const { error } = await supabase.from('reactions').delete().match({ id: reactionId }).select();
 	if (error) console.log(error);
 };
