@@ -21,7 +21,9 @@ export type Message = {
 	reactions: Reaction[];
 };
 
-export const chat = writable<Message[]>([]);
+// consts
+export const REACTION_OPTIONS = ['👍', '👎', '❤️', '🔥', '👀'];
+export const AVATAR_BG_LIST = ['bg-primary-500', 'bg-secondary-500', 'bg-tertiary-500'];
 const MESSAGE_QUERY = `
 	*, 
 	author ( profile_img_url, display_name, id), 
@@ -29,9 +31,11 @@ const MESSAGE_QUERY = `
 `;
 const INIT_CHAT_INDEX = 7;
 const CHAT_INCREMENT = 5;
-let chatCount = INIT_CHAT_INDEX;
 const TABLE_NAME = 'messages';
 
+// store
+let chatCount = INIT_CHAT_INDEX;
+export const chat = writable<Message[]>([]);
 export const loadChat = async () => {
 	const { data, error } = await supabase
 		.from(TABLE_NAME)
@@ -95,4 +99,47 @@ export const createMessage = async (message: string, author: string) => {
 	// Creates a new message in the database
 	const { data, error } = await supabase.from(TABLE_NAME).insert([{ text: message, author }]);
 	if (error) console.log(error);
+};
+
+export const createReaction = async (messageId: number, emoji: string, userId: string) => {
+	// Adds a reaction to a message
+	const { data, error } = await supabase
+		.from('reactions')
+		.insert([{ message: messageId, emoji, user: userId }])
+		.select('id, emoji, user ( profile_img_url, display_name, id)');
+	if (error) console.log(error);
+
+	// Updates the message in the store with the new reaction
+	chat.update((messages) => {
+		const messageIndex = messages.findIndex((message) => message.id === messageId);
+		if (messageIndex === -1 || !data) return messages;
+		const newMessage = messages[messageIndex];
+		newMessage.reactions = [...newMessage.reactions, data[0]] as Reaction[];
+		const newMessages = [...messages];
+		newMessages[messageIndex] = newMessage;
+		return newMessages;
+	});
+};
+
+export const deleteReaction = async (reactionId: number) => {
+	// Removes a reaction from a message
+	const { data, error } = await supabase
+		.from('reactions')
+		.delete()
+		.match({ id: reactionId })
+		.select();
+	if (error) console.log(error);
+
+	// Removes the reaction from the message in the store
+	chat.update((messages) => {
+		const messageIndex = messages.findIndex((message) =>
+			message.reactions.some((r) => r.id === reactionId)
+		);
+		if (messageIndex === -1 || !data) return messages;
+		const newMessage = messages[messageIndex];
+		newMessage.reactions = newMessage.reactions.filter((r) => r.id !== reactionId);
+		const newMessages = [...messages];
+		newMessages[messageIndex] = newMessage;
+		return newMessages;
+	});
 };

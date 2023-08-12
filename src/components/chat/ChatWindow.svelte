@@ -1,6 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { chat, loadMore, loadChat, createMessage, type Message } from '$lib/stores/messages';
+	import {
+		chat,
+		loadMore,
+		loadChat,
+		createMessage,
+		type Message,
+		createReaction,
+		deleteReaction
+	} from '$lib/stores/messages';
 	import type { Session } from '@supabase/supabase-js';
 	import ChatInput from './ChatInput.svelte';
 	import ChatMessage from './ChatMessage.svelte';
@@ -66,6 +74,18 @@
 	function scrollToBottom() {
 		div.scrollTo({ left: 0, top: div.scrollHeight, behavior: 'smooth' });
 	}
+
+	function addReaction(event: CustomEvent) {
+		if (!session) return;
+		const { messageId, emoji } = event.detail;
+		createReaction(messageId, emoji, session.user.id);
+	}
+
+	function removeReaction(event: CustomEvent) {
+		if (!session) return;
+		const { reactionId } = event.detail;
+		deleteReaction(reactionId);
+	}
 </script>
 
 <div class="container flex-grow md:mx-1 pt-16 md:pt-0 chat-window">
@@ -86,7 +106,12 @@
 						</span>
 					</div>
 					{#each messagesByDate[date] as message (message.id)}
-						<ChatMessage {message} isFromCurrentUser={message.author.id == session.user.id} />
+						<ChatMessage
+							{message}
+							currentUser={session.user.id}
+							on:addReaction={addReaction}
+							on:removeReaction={removeReaction}
+						/>
 					{/each}
 				</div>
 			{/each}
