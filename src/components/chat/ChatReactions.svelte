@@ -9,6 +9,11 @@
 	export let messageId: number;
 	export let reactions: Reaction[];
 	export let currentUser: string;
+	$: reactions = reactions;
+	$: filteredReactionOptions = REACTION_OPTIONS.filter(
+		(emoji) =>
+			!reactions.some((reaction) => reaction.user.id === currentUser && reaction.emoji === emoji)
+	);
 
 	type GroupedReactions = {
 		[key: string]: Reaction[];
@@ -48,7 +53,7 @@
 					dispatch('addReaction', { messageId, emoji });
 				}
 			}}
-			class:active={userHasReacted(emoji)}
+			class:bg-primary-400={userHasReacted(emoji)}
 		>
 			<span class="text-sm">
 				{emoji}
@@ -58,7 +63,7 @@
 	{/each}
 	<div class="card px-4 variant-filled-surface" data-popup={`reactions-panel-${messageId}`}>
 		<div class="flex flex-row gap-1">
-			{#each REACTION_OPTIONS.filter((emoji) => !userHasReacted(emoji)) as emoji}
+			{#each filteredReactionOptions as emoji}
 				<button
 					class="p-2"
 					on:contextmenu={stopContextMenu}
@@ -83,9 +88,3 @@
 		placement="top-start"
 	/>
 </div>
-
-<style>
-	.active {
-		@apply variant-filled-primary;
-	}
-</style>
