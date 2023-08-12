@@ -50,13 +50,13 @@
 
 	const handleScroll = async (e: any) => {
 		autoscrolling = false;
-		let clientHeight = e.srcElement.scrollTop;
-		if (clientHeight == 0) {
+		let clientHeight = e.srcElement?.scrollTop;
+		if (clientHeight === 0) {
 			isLoading = true;
 			await loadMore();
 			isLoading = false;
 			setTimeout(() => {
-				div.scrollTo({ left: 0, top: 40, behavior: 'smooth' });
+				div?.scrollTo({ left: 0, top: 40, behavior: 'smooth' });
 			}, 250);
 		}
 
@@ -73,7 +73,7 @@
 	};
 
 	function scrollToBottom() {
-		div.scrollTo({ left: 0, top: div.scrollHeight, behavior: 'smooth' });
+		div?.scrollTo({ left: 0, top: div.scrollHeight, behavior: 'smooth' });
 	}
 
 	function addReaction(event: CustomEvent) {
