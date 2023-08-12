@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { AVATAR_BG_LIST, REACTION_OPTIONS, type Reaction } from '$lib/stores/messages';
 	import { getInitials } from '$lib/utils/avatarUtils';
-	import { Avatar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
+
 	import { createEventDispatcher } from 'svelte';
 	import ChatReactionInput from './ChatReactionInput.svelte';
 
@@ -36,25 +36,8 @@
 	};
 </script>
 
-<div class="flex flex-row gap-1 mt-2">
+<div class="flex flex-row gap-1 mt-2 w-min">
 	{#each Object.entries(groupedReactions) as [emoji, reactionGroup]}
-		<div
-			class="card p-2 variant-filled-surface flex flex-row"
-			data-popup={`reactions-detail-${messageId}-${emoji}`}
-		>
-			{#each reactionGroup as reaction, i}
-				<div class="flex flex-col items-center justify-center gap-0">
-					<Avatar
-						src={reaction.user.profile_img_url}
-						initials={getInitials(reaction.user.display_name)}
-						width="w-8"
-						background={AVATAR_BG_LIST[i % AVATAR_BG_LIST.length]}
-					/>
-					<small class="opacity-50 truncate w-20">{reaction.user.display_name}</small>
-				</div>
-			{/each}
-			<div class="arrow variant-filled-surface" />
-		</div>
 		<button
 			class="btn variant-ghost btn-sm [&>*]:pointer-events-none"
 			on:click={() => {
