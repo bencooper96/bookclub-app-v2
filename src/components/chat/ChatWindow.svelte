@@ -97,13 +97,15 @@
 		const { messageId } = event.detail;
 		deleteMessageById(messageId);
 	}
+
+	const offsetClass = currentMeeting ? 'pt-24 md:pt-12' : 'pt-16 md:pt-0';
 </script>
 
-<div class={`container -mt-12 md:mt-0 pt-16 md:pt-0 chat-window`}>
+{#if currentMeeting}
+	<UpcomingMeetingBanner {currentMeeting} {session} />
+{/if}
+<div class={`container -mt-12 md:mt-0 chat-window ${offsetClass}`}>
 	{#if session}
-		{#if currentMeeting}
-			<UpcomingMeetingBanner {currentMeeting} {session} />
-		{/if}
 		<div
 			class="w-full md:px-12 lg:px-40 p-4 overflow-y-auto space-y-4 hide-scrollbar"
 			bind:this={div}
