@@ -20,7 +20,6 @@ export const actions = {
 		const message = (formData.get('message') as string) ?? null;
 		const timezoneOffset = parseInt(formData.get('timezoneOffset') as string) ?? 0;
 		let meeting_date = formData.get('datetime') as string;
-		console.log(timezoneOffset);
 		// convert to UTC using the timezoneOffset
 		meeting_date = new Date(
 			new Date(meeting_date).getTime() + timezoneOffset * -1 * 60000
@@ -38,7 +37,6 @@ export const actions = {
 		if (message) {
 			input['message'] = message;
 		}
-		console.log(formData.get('datetime') as string, input['meeting_date']);
 		const { data, error } = await supabase.from('meetings').insert([input]).select('*');
 
 		if (error) {

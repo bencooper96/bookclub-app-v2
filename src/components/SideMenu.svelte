@@ -2,9 +2,12 @@
 	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
 	import type { Session } from '@supabase/supabase-js';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let closeMenu = () => {};
 	export let session: Session | null;
+	export let deferredPWAPrompt: ({ prompt: () => void } & Event) | undefined;
 
 	$: displayName = session?.user.user_metadata?.display_name;
 	$: email = session?.user.email;
@@ -20,6 +23,18 @@
 			>
 				<Icon icon="lucide:home" class="w-7 h-7" />
 				Home
+			</a>
+		</li>
+		<li>
+			<a
+				href="/meetings"
+				class={`flex flex-row items-center gap-1 ${
+					$page.url.pathname == '/meetings' && 'font-bold'
+				}`}
+				on:click={closeMenu}
+			>
+				<Icon icon="lucide:calendar" class="w-7 h-7" />
+				Meetings
 			</a>
 		</li>
 		<hr />
@@ -79,6 +94,14 @@
 				</li>
 			</ul>
 		</div>
+		{#if deferredPWAPrompt !== undefined}
+			<button
+				class="sm:hidden flex flex-row items-center gap-2 px-4 py-2 text-sm rounded-sm shadow bg-primary-300-600-token text-surface-800"
+				on:click={() => dispatch('install-pwa')}
+			>
+				Install App</button
+			>
+		{/if}
 		<ul class="flex flex-col gap-4">
 			<hr />
 			<li>

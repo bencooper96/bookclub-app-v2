@@ -15,8 +15,11 @@
 	import ChatMessage from './ChatMessage.svelte';
 	import { getDate } from '$lib/utils/time';
 	import Icon from '@iconify/svelte';
-	export let session: null | Session;
+	import type { Meeting } from '$lib/stores/meetings';
+	import UpcomingMeetingBanner from '$components/UpcomingMeetingBanner.svelte';
 
+	export let session: null | Session;
+	export let currentMeeting: Meeting | null | undefined;
 	let isLoading = false;
 	let div: HTMLDivElement;
 	let autoscrolling = true;
@@ -51,7 +54,6 @@
 	const handleScroll = async (e: any) => {
 		autoscrolling = false;
 		let clientHeight = e.srcElement?.scrollTop;
-		console.log('called', clientHeight, div.scrollHeight - div.clientHeight);
 		if (clientHeight === 0) {
 			isLoading = true;
 			await loadMore();
@@ -97,8 +99,11 @@
 	}
 </script>
 
-<div class="container pt-16 -mt-12 md:pt-0 md:mt-0 chat-window">
+<div class={`container -mt-12 md:mt-0 pt-16 md:pt-0 chat-window relative`}>
 	{#if session}
+		{#if currentMeeting}
+			<UpcomingMeetingBanner {currentMeeting} {session} />
+		{/if}
 		<div
 			class="w-full md:px-12 lg:px-40 p-4 overflow-y-auto space-y-4 hide-scrollbar"
 			bind:this={div}

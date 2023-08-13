@@ -59,7 +59,8 @@
 		'/add/book': { title: 'Add Book or Reading' },
 		'/auth/login': { title: '' },
 		'/auth/sign-up': { title: '' },
-		'/profile': { title: 'Profile' }
+		'/profile': { title: 'Profile' },
+		'/meetings': { title: 'Meetings' }
 	};
 
 	const BACKGROUND_COLORS = ['#ff00f2', '#739AFF', '#F88D8D', '#39D4D4', '#BA48FF'];
@@ -87,25 +88,17 @@
 			<DrawerMenu {session} />
 			<h1 class="ml-1 text-xl">{route ? PATHS[route].title : ''}</h1>
 		</svelte:fragment>
-		<svelte:fragment slot="trail">
-			{#if deferredPrompt !== undefined}
-				<button
-					class="sm:hidden flex flex-row items-center gap-2 px-4 py-2 text-sm rounded-sm shadow bg-primary-300-600-token text-surface-800"
-					on:click={installApp}
-				>
-					Install</button
-				>
-			{/if}
-		</svelte:fragment>
 	</AppBar>
 	<div
 		class="flex flex-row h-full mt-12 md:mt-0"
 		class:mt-0={route ? PATHS[route].noMargin : false}
 	>
 		<div class="md:block hidden bg-surface-50-900-token shadow-lg">
-			<SideMenu {session} />
+			<SideMenu {session} deferredPWAPrompt={deferredPrompt} on:install-pwa={installApp} />
 		</div>
-		<slot />
+		<div class="relative flex-1 w-full">
+			<slot />
+		</div>
 	</div>
 </div>
 <Toast />
