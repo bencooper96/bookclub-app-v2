@@ -61,13 +61,28 @@
 		'/auth/sign-up': { title: '' },
 		'/profile': { title: 'Profile' }
 	};
+
+	const BACKGROUND_COLORS = ['#ff00f2', '#739AFF', '#F88D8D', '#39D4D4', '#BA48FF'];
+	onMount(() => {
+		// Set the background by randomly selecting from bg options
+		const color = BACKGROUND_COLORS[Math.floor(Math.random() * BACKGROUND_COLORS.length)];
+		const gradient = `radial-gradient(at 95% 16%, hsla(189, 100%, 80%, 1) 0px, transparent 50%),
+		radial-gradient(at 80% 100%, hsla(248, 100%, 80%, 1) 0px, transparent 50%),
+		radial-gradient(at 19% 96%, hsla(233, 100%, 80%, 1) 0px, transparent 50%),
+		radial-gradient(at 29% 16%, hsla(304, 100%, 80%, 1) 0px, transparent 50%)`;
+
+		document.body.style.background = color;
+		document.body.style.backgroundImage = gradient;
+		document.body.style.backgroundRepeat = 'no-repeat';
+		document.body.style.backgroundAttachment = 'fixed';
+	});
 </script>
 
 <svelte:head>
 	{@html webManifestLink}
 </svelte:head>
 <div class="h-full flex flex-col">
-	<AppBar class="fixed top-0 w-full z-40 md:hidden">
+	<AppBar class="fixed top-0 w-full h-16 z-40 md:hidden">
 		<svelte:fragment slot="lead">
 			<DrawerMenu {session} />
 			<h1 class="ml-1 text-xl">{route ? PATHS[route].title : ''}</h1>

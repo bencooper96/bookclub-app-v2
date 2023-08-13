@@ -45,7 +45,7 @@
 					</button>
 				</div>
 			</header>
-			<p class="whitespace-pre-line">{text}</p>
+			<p class="whitespace-pre-line font-sans">{text}</p>
 			<ChatReactions {currentUser} messageId={id} {reactions} on:addReaction on:removeReaction />
 		</div>
 		<Avatar src={author.profile_img_url} initials={getInitials(author.display_name)} width="w-12" />
@@ -62,7 +62,7 @@
 					<small class="opacity-50">{timestamp}</small>
 				</div>
 			</header>
-			<p class="whitespace-pre-line">{text}</p>
+			<p class="whitespace-pre-line font-sans">{text}</p>
 			<ChatReactions {currentUser} messageId={id} {reactions} on:addReaction on:removeReaction />
 		</div>
 	</div>
