@@ -54,7 +54,7 @@
 	};
 
 	const PATHS: Record<NonNullable<typeof route>, RouteOptions> = {
-		'/': { title: 'Home', noMargin: true },
+		'/': { title: 'Messages', noMargin: true },
 		'/add/meeting': { title: 'Add Meeting' },
 		'/add/book': { title: 'Add Book or Reading' },
 		'/auth/login': { title: '' },

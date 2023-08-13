@@ -21,8 +21,8 @@
 				class={`flex flex-row items-center gap-1 ${$page.url.pathname == '/' && 'font-bold'}`}
 				on:click={closeMenu}
 			>
-				<Icon icon="lucide:home" class="w-7 h-7" />
-				Home
+				<Icon icon="lucide:messages-square" class="w-7 h-7" />
+				Messages
 			</a>
 		</li>
 		<li>
@@ -37,35 +37,10 @@
 				Meetings
 			</a>
 		</li>
-		<hr />
-		<li>
-			<a
-				href="/add/book"
-				class={`flex flex-row items-center gap-1 ${
-					$page.url.pathname == '/add/book' && 'font-bold'
-				}`}
-				on:click={closeMenu}
-			>
-				<Icon icon="lucide:book-plus" class="w-7 h-7" />
-				Add a book
-			</a>
-		</li>
-		<li>
-			<a
-				href="/add/meeting"
-				class={`flex flex-row items-center gap-1 ${
-					$page.url.pathname == '/add/meeting' && 'font-bold'
-				}`}
-				on:click={closeMenu}
-			>
-				<Icon icon="lucide:calendar-plus" class="w-7 h-7" />
-				Add a meeting
-			</a>
-		</li>
 	</ul>
 
 	<div id="bottom" class="flex flex-col gap-4">
-		<div class="bg-surface-50-900-token p-2 rounded-md shadow-lg">
+		<!-- <div class="bg-surface-50-900-token p-2 rounded-md shadow-lg">
 			<div class="flex flex-row justify-between items-center">
 				<h3 class="text-lg font-bold uppercase text-surface-800-100-token">🚧 Coming soon</h3>
 				<a href="https://github.com/bencooper96/bookclub-app-v2" target="_blank" rel="noopener">
@@ -93,7 +68,7 @@
 					</span>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 		{#if deferredPWAPrompt !== undefined}
 			<button
 				class="sm:hidden flex flex-row items-center gap-2 px-4 py-2 text-sm rounded-sm shadow bg-primary-300-600-token text-surface-800"
@@ -103,6 +78,30 @@
 			>
 		{/if}
 		<ul class="flex flex-col gap-4">
+			<li>
+				<a
+					href="/add/book"
+					class={`flex flex-row items-center gap-1 ${
+						$page.url.pathname == '/add/book' && 'font-bold'
+					}`}
+					on:click={closeMenu}
+				>
+					<Icon icon="lucide:book-plus" class="w-7 h-7" />
+					Add a book
+				</a>
+			</li>
+			<li>
+				<a
+					href="/add/meeting"
+					class={`flex flex-row items-center gap-1 ${
+						$page.url.pathname == '/add/meeting' && 'font-bold'
+					}`}
+					on:click={closeMenu}
+				>
+					<Icon icon="lucide:calendar-plus" class="w-7 h-7" />
+					Add a meeting
+				</a>
+			</li>
 			<hr />
 			<li>
 				<a href={session ? '/profile' : '/auth/login'} on:click={closeMenu}>

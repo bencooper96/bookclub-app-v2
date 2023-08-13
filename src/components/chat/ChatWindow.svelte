@@ -16,7 +16,7 @@
 	import { getDate } from '$lib/utils/time';
 	import Icon from '@iconify/svelte';
 	import type { Meeting } from '$lib/stores/meetings';
-	import UpcomingMeetingBanner from '$components/UpcomingMeetingBanner.svelte';
+	import UpcomingMeetingBanner from '$components/meetings/UpcomingMeetingBanner.svelte';
 
 	export let session: null | Session;
 	export let currentMeeting: Meeting | null | undefined;
@@ -99,7 +99,7 @@
 	}
 </script>
 
-<div class={`container -mt-12 md:mt-0 pt-16 md:pt-0 chat-window relative`}>
+<div class={`container -mt-12 md:mt-0 pt-16 md:pt-0 chat-window`}>
 	{#if session}
 		{#if currentMeeting}
 			<UpcomingMeetingBanner {currentMeeting} {session} />
