@@ -23,6 +23,7 @@
 	let isLoading = false;
 	let div: HTMLDivElement;
 	let autoscrolling = true;
+	let chatInputExpanded: boolean;
 
 	$: $chat && autoScroll();
 	function autoScroll() {
@@ -72,6 +73,7 @@
 		autoscrolling = true;
 		const { message } = event.detail;
 		if (!session) return;
+		if (!message || message == '') return;
 		await createMessage(message, session.user.id);
 	};
 
@@ -105,7 +107,10 @@
 	<UpcomingMeetingBanner {currentMeeting} {session} />
 {/if}
 {#if session}
-	<div class={`container -mt-12 md:mt-0 chat-window ${offsetClass}`}>
+	<div
+		class={`container -mt-12 md:mt-0 chat-window ${offsetClass}`}
+		class:inputExpanded={chatInputExpanded}
+	>
 		<div
 			class="w-full md:px-12 lg:px-40 p-4 overflow-y-auto space-y-4 hide-scrollbar"
 			bind:this={div}
@@ -133,13 +138,23 @@
 				</div>
 			{/each}
 		</div>
-		<ChatInput on:sendMessage={sendMessage} on:scrollToBottom={scrollToBottom} />
+		<div class="fixed bottom-0 inset-x-0">
+			<ChatInput
+				on:sendMessage={sendMessage}
+				on:scrollToBottom={scrollToBottom}
+				bind:isExpanded={chatInputExpanded}
+			/>
+		</div>
 	</div>
 {/if}
 
 <style>
 	.chat-window {
-		@apply flex flex-col h-screen justify-end;
+		@apply flex flex-col h-screen justify-end relative pb-20;
 		@apply bg-white bg-opacity-50;
+	}
+
+	.inputExpanded {
+		@apply pb-40;
 	}
 </style>

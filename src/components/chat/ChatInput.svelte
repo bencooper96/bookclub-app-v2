@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 
 	const dispatch = createEventDispatcher();
-	let isExpanded = false;
+	export let isExpanded: boolean = false;
 	let message = '';
 	const sendMessage = () => {
 		dispatch('sendMessage', { message });
@@ -25,6 +25,8 @@
 			sendMessage();
 		}
 	}
+
+	const setExpanded = (value: boolean) => (isExpanded = value);
 </script>
 
 <div
@@ -38,18 +40,18 @@
 		placeholder="Type a message"
 		rows={isExpanded ? 3 : 1}
 		on:focus={() => {
-			isExpanded = true;
+			setExpanded(true);
 			setTimeout(() => {
 				dispatch('scrollToBottom');
 			});
 		}}
 		on:focusout={() => {
-			isExpanded = false;
+			setExpanded(false);
 		}}
 		bind:value={message}
 	/>
 	<div class="toolbar flex flex-row justify-end">
-		<button class="btn variant-filled-primary btn-sm h-min" on:click={sendMessage}>Send</button>
+		<button class="btn variant-filled-primary" on:click={sendMessage}>Send</button>
 	</div>
 </div>
 
@@ -60,9 +62,9 @@
 	}
 
 	.collapsed {
-		@apply flex-row items-end;
+		@apply flex-row items-end h-16;
 	}
 	.expanded {
-		@apply flex-col gap-2;
+		@apply flex-col gap-2 h-40;
 	}
 </style>
