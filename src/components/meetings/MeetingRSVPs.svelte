@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { AVATAR_COLORS } from '$lib/consts/avatar';
 	import { rsvpsForMeeting } from '$lib/stores/rsvps';
 	import { getInitials } from '$lib/utils/avatarUtils';
 	import { TabGroup, Tab, Avatar } from '@skeletonlabs/skeleton';
 	export let meeting: number;
 	let tabSet: number = 0;
-	const AVATAR_COLORS = ['bg-primary-400', 'bg-secondary-400', 'bg-tertiary-400'];
 
 	// filter the RSVPs to the selected tabSet
 	// 0 = attending, 1 = not attending

@@ -21,7 +21,7 @@
 
 {#if display}
 	<div class="flex flex-col py-2 px-4 gradient-bg rounded-sm shadow-lg gap-2">
-		<span class="text-3xl text-surface-900-50-token tracking-wider">
+		<span class="text-3xl text-surface-900-50-token">
 			{nextMeetingDateString}
 		</span>
 		<span class="text-3xl text-surface-900-50-token tracking-wider">
