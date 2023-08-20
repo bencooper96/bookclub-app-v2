@@ -10,7 +10,7 @@
 	$: userHasRSVPed = currentMeeting?.rsvps?.some((rsvp) => rsvp.user.id === session?.user?.id);
 </script>
 
-<div class="absolute z-40 top-0 right-0 left-0">
+<div class="absolute z-20 top-4 md:top-0 right-0 left-0">
 	<div class="flex flex-row justify-between z-30 bg-tertiary-300 p-2 shadow-lg">
 		<div class="flex flex-col md:flex-row md:items-center md:gap-2">
 			<h2 class="text-xs text-surface-800-100-token">Upcoming Meeting:</h2>

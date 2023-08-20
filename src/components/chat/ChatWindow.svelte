@@ -98,7 +98,7 @@
 		deleteMessageById(messageId);
 	}
 
-	const offsetClass = currentMeeting ? 'pt-24 md:pt-12' : 'pt-16 md:pt-0';
+	const offsetClass = currentMeeting ? 'pt-32 md:pt-12' : 'pt-16 md:pt-0';
 </script>
 
 {#if currentMeeting}
