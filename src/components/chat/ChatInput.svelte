@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isMobile } from '$lib/utils/browser';
 	import { createEventDispatcher } from 'svelte';
 	import { onMount } from 'svelte';
 
@@ -20,7 +21,7 @@
 	});
 
 	function keyboardSend(event: KeyboardEvent) {
-		if (event.key === 'Enter' && !event.shiftKey) {
+		if (event.key === 'Enter' && !event.shiftKey && !isMobile()) {
 			event.preventDefault();
 			sendMessage();
 		}

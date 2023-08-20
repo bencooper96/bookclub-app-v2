@@ -138,7 +138,7 @@
 				</div>
 			{/each}
 		</div>
-		<div class="fixed bottom-0 inset-x-0">
+		<div class="absolute bottom-0 inset-x-0">
 			<ChatInput
 				on:sendMessage={sendMessage}
 				on:scrollToBottom={scrollToBottom}
@@ -150,7 +150,7 @@
 
 <style>
 	.chat-window {
-		@apply flex flex-col h-screen justify-end relative pb-20;
+		@apply flex flex-col h-screen justify-end relative pb-16;
 		@apply bg-white bg-opacity-50;
 	}
 
