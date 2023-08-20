@@ -104,8 +104,8 @@
 {#if currentMeeting}
 	<UpcomingMeetingBanner {currentMeeting} {session} />
 {/if}
-<div class={`container -mt-12 md:mt-0 chat-window ${offsetClass}`}>
-	{#if session}
+{#if session}
+	<div class={`container -mt-12 md:mt-0 chat-window ${offsetClass}`}>
 		<div
 			class="w-full md:px-12 lg:px-40 p-4 overflow-y-auto space-y-4 hide-scrollbar"
 			bind:this={div}
@@ -134,8 +134,8 @@
 			{/each}
 		</div>
 		<ChatInput on:sendMessage={sendMessage} on:scrollToBottom={scrollToBottom} />
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style>
 	.chat-window {
