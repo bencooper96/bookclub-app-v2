@@ -41,42 +41,34 @@
 	};
 </script>
 
-<div class="h-full">
-	<div class="container max-w-sm mx-auto p-4 pt-32 mt-4 flex flex-col justify-center gap-4">
-		<h2 class="text-7xl font-bold text-center">Sign up</h2>
-		<form on:submit={handleSignUp} class="flex flex-col gap-2 mt-4">
-			<div class="w-full">
-				<label class="label" for="email">Email</label>
-				<input class="w-full input" type="email" name="email" required bind:value={email} />
-			</div>
-			<div class="w-full">
-				<label class="label" for="password">Password</label>
-				<input
-					type="password"
-					class="w-full input"
-					name="password"
-					required
-					bind:value={password}
-				/>
-			</div>
-			<div class="w-full">
-				<label class="label" for="display_name">Full Name</label>
-				<input
-					type="text"
-					class="w-full input"
-					name="display_name"
-					required
-					bind:value={display_name}
-				/>
-			</div>
-			<button type="submit" class="mt-4">Sign Up</button>
-			<span class="text-center">
-				or <a class="underline cursor-pointer" href={'login/?redirect=' + route}>
-					sign in to your account
-				</a><span /></span
-			>
-		</form>
-	</div>
+<div class="container max-w-sm mx-auto p-4 pt-32 mt-4 flex flex-col gap-4">
+	<h2 class="text-7xl font-bold text-center">Sign up</h2>
+	<form on:submit={handleSignUp} class="flex flex-col gap-2 mt-4">
+		<div class="w-full">
+			<label class="label" for="email">Email</label>
+			<input class="w-full input" type="email" name="email" required bind:value={email} />
+		</div>
+		<div class="w-full">
+			<label class="label" for="password">Password</label>
+			<input type="password" class="w-full input" name="password" required bind:value={password} />
+		</div>
+		<div class="w-full">
+			<label class="label" for="display_name">Full Name</label>
+			<input
+				type="text"
+				class="w-full input"
+				name="display_name"
+				required
+				bind:value={display_name}
+			/>
+		</div>
+		<button type="submit" class="mt-4">Sign Up</button>
+		<span class="text-center">
+			or <a class="underline cursor-pointer" href={'login/?redirect=' + route}>
+				sign in to your account
+			</a><span /></span
+		>
+	</form>
 </div>
 
 <style>

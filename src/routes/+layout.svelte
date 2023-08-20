@@ -8,15 +8,17 @@
 
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { Toast } from '@skeletonlabs/skeleton';
+	import { AppBar, Toast } from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import { storePopup } from '@skeletonlabs/skeleton';
+	import SideMenu from '$components/SideMenu.svelte';
+	import DrawerMenu from '$components/DrawerMenu.svelte';
 
 	export let data;
 
-	let { supabase, session } = data;
-	$: ({ supabase, session } = data);
+	let { supabase, session, route } = data;
+	$: ({ supabase, session, route } = data);
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	onMount(() => {
@@ -32,13 +34,73 @@
 	});
 
 	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+	// This variable will save the event for later use.
+	let deferredPrompt: ({ prompt: () => void } & Event) | undefined;
+
+	onMount(() => {
+		window.addEventListener('beforeinstallprompt', (e) => {
+			e.preventDefault();
+			deferredPrompt = e as { prompt: () => void } & Event;
+		});
+	});
+
+	function installApp() {
+		deferredPrompt?.prompt();
+	}
+
+	type RouteOptions = {
+		title: string;
+		noMargin?: boolean;
+	};
+
+	const PATHS: Record<NonNullable<typeof route>, RouteOptions> = {
+		'/': { title: 'Messages', noMargin: true },
+		'/add/meeting': { title: 'Add Meeting' },
+		'/add/book': { title: 'Add Book or Reading' },
+		'/auth/login': { title: '' },
+		'/auth/sign-up': { title: '' },
+		'/profile': { title: 'Profile' },
+		'/meetings': { title: 'Meetings' }
+	};
+
+	const BACKGROUND_COLORS = ['#ff00f2', '#739AFF', '#F88D8D', '#39D4D4', '#BA48FF'];
+	onMount(() => {
+		// Set the background by randomly selecting from bg options
+		const color = BACKGROUND_COLORS[Math.floor(Math.random() * BACKGROUND_COLORS.length)];
+		const gradient = `radial-gradient(at 95% 16%, hsla(189, 100%, 80%, 1) 0px, transparent 50%),
+		radial-gradient(at 80% 100%, hsla(248, 100%, 80%, 1) 0px, transparent 50%),
+		radial-gradient(at 19% 96%, hsla(233, 100%, 80%, 1) 0px, transparent 50%),
+		radial-gradient(at 29% 16%, hsla(304, 100%, 80%, 1) 0px, transparent 50%)`;
+
+		document.body.style.background = color;
+		document.body.style.backgroundImage = gradient;
+		document.body.style.backgroundRepeat = 'no-repeat';
+		document.body.style.backgroundAttachment = 'fixed';
+	});
 </script>
 
 <svelte:head>
 	{@html webManifestLink}
 </svelte:head>
-
-<slot />
+<div class="h-full flex flex-col">
+	<AppBar class="fixed top-0 w-full h-16 z-40 md:hidden">
+		<svelte:fragment slot="lead">
+			<DrawerMenu {session} />
+			<h1 class="ml-1 text-xl">{route ? PATHS[route].title : ''}</h1>
+		</svelte:fragment>
+	</AppBar>
+	<div
+		class="flex flex-row h-full mt-12 md:mt-0"
+		class:mt-0={route ? PATHS[route].noMargin : false}
+	>
+		<div class="md:block hidden bg-surface-50-900-token shadow-lg">
+			<SideMenu {session} deferredPWAPrompt={deferredPrompt} on:install-pwa={installApp} />
+		</div>
+		<div class="relative flex-1 w-full">
+			<slot />
+		</div>
+	</div>
+</div>
 <Toast />
 
 {#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}

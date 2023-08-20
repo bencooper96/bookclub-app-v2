@@ -48,95 +48,87 @@
 	};
 </script>
 
-<div class="h-full">
-	<AppBar>
-		<svelte:fragment slot="lead">
-			<DrawerMenu {session} />
-			<h1 class="ml-1 text-xl">Add a Book or Reading</h1>
-		</svelte:fragment>
-	</AppBar>
-	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
-		<h2 class="text-4xl ml-1 font-bold text-surface-800-100-token">New book</h2>
-		<form
-			method="POST"
-			action="?/create"
-			use:enhance={({}) => {
-				loading = true;
+<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
+	<h2 class="text-4xl ml-1 font-bold text-surface-800-100-token">New book</h2>
+	<form
+		method="POST"
+		action="?/create"
+		use:enhance={({}) => {
+			loading = true;
 
-				return async ({ result, update }) => {
-					if (result.type === 'success') {
-						toastStore.trigger(t);
-						goto('/add/meeting?from=book&book=' + result.data?.id);
-					} else {
-						toastStore.trigger({
-							message: 'Something went wrong while adding the book!',
-							timeout: 5000,
-							background: 'variant-filled-error'
-						});
-					}
-					loading = false;
-				};
-			}}
-			class="flex flex-col gap-2 mt-2 p-2 rounded-sm bg-surface-50-900-token shadow-xl"
-		>
-			<div class="w-full">
-				<label class="label" for="title">Title</label>
-				<input class="w-full input" required type="text" name="title" bind:value={title} />
-			</div>
-			<div class="w-full">
-				<label class="label" for="author">Author</label>
-				<input type="text" class="input" required name="author" bind:value={author} />
-			</div>
-			<Accordion class="my-2 bg-surface-100-800-token border border-surface-500 rounded-lg">
-				<AccordionItem open>
-					<svelte:fragment slot="summary">Additional Info</svelte:fragment>
-					<svelte:fragment slot="content">
-						<div class="pb-2 flex flex-col gap-3">
-							<div class="w-full">
-								<label class="label" for="type">Type of reading</label>
-								<select class="input" name="type" bind:value={type}>
-									{#each typeOptions as option}
-										<option value={option.value}>{option.label}</option>
-									{/each}
-								</select>
-							</div>
-							<div class="w-full">
-								<label class="label" for="type">Gender of Author</label>
-								<select class="input" name="gender" bind:value={gender}>
-									{#each genderOptions as option}
-										<option value={option.value}>{option.label}</option>
-									{/each}
-								</select>
-							</div>
+			return async ({ result, update }) => {
+				if (result.type === 'success') {
+					toastStore.trigger(t);
+					goto('/add/meeting?from=book&book=' + result.data?.id);
+				} else {
+					toastStore.trigger({
+						message: 'Something went wrong while adding the book!',
+						timeout: 5000,
+						background: 'variant-filled-error'
+					});
+				}
+				loading = false;
+			};
+		}}
+		class="flex flex-col gap-2 mt-2 px-2 py-3 rounded bg-surface-50-900-token shadow-xl"
+	>
+		<div class="w-full">
+			<label class="label" for="title">Title</label>
+			<input class="w-full input" required type="text" name="title" bind:value={title} />
+		</div>
+		<div class="w-full">
+			<label class="label" for="author">Author</label>
+			<input type="text" class="input" required name="author" bind:value={author} />
+		</div>
+		<Accordion class="my-2 bg-surface-100-800-token border border-surface-500 rounded-lg">
+			<AccordionItem open={false}>
+				<svelte:fragment slot="summary">Optional additional info</svelte:fragment>
+				<svelte:fragment slot="content">
+					<div class="pb-2 flex flex-col gap-3">
+						<div class="w-full">
+							<label class="label" for="type">Type of reading</label>
+							<select class="input" name="type" bind:value={type}>
+								{#each typeOptions as option}
+									<option value={option.value}>{option.label}</option>
+								{/each}
+							</select>
 						</div>
 						<div class="w-full">
-							<label class="label" for="publication_year">Publication Year</label>
-							<input
-								class="input"
-								type="number"
-								name="publication_year"
-								bind:value={publication_year}
-							/>
+							<label class="label" for="type">Gender of author</label>
+							<select class="input" name="gender" bind:value={gender}>
+								{#each genderOptions as option}
+									<option value={option.value}>{option.label}</option>
+								{/each}
+							</select>
 						</div>
-						<div class="w-full">
-							<label class="label" for="original_language">Original Language</label>
-							<input
-								class="input"
-								type="text"
-								name="original_language"
-								bind:value={original_language}
-							/>
-						</div>
-						<div class="w-full">
-							<label class="label" for="race_ethnicity">Race/Ethnicity of Author</label>
-							<input class="input" type="text" name="race_ethnicity" bind:value={race_ethnicity} />
-						</div>
-					</svelte:fragment>
-				</AccordionItem>
-			</Accordion>
-			<button type="submit" class="mt-4">Add book</button>
-		</form>
-	</div>
+					</div>
+					<div class="w-full">
+						<label class="label" for="publication_year">Publication year</label>
+						<input
+							class="input"
+							type="number"
+							name="publication_year"
+							bind:value={publication_year}
+						/>
+					</div>
+					<div class="w-full">
+						<label class="label" for="original_language">Original language</label>
+						<input
+							class="input"
+							type="text"
+							name="original_language"
+							bind:value={original_language}
+						/>
+					</div>
+					<div class="w-full">
+						<label class="label" for="race_ethnicity">Race/ethnicity of author</label>
+						<input class="input" type="text" name="race_ethnicity" bind:value={race_ethnicity} />
+					</div>
+				</svelte:fragment>
+			</AccordionItem>
+		</Accordion>
+		<button type="submit" class="mt-4">Add book</button>
+	</form>
 </div>
 
 <style>

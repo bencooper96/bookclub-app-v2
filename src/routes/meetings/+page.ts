@@ -6,9 +6,10 @@ export const load = async () => {
 	const { data } = await supabase
 		.from('meetings')
 		.select(
-			`*, 
+			`*,
+			book(id, title, author),
 			rsvps(*, 
-				user (id))
+				user (id, display_name))
 		`
 		)
 		.order('meeting_date', { ascending: true });

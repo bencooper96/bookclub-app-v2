@@ -34,27 +34,25 @@
 	}
 </script>
 
-<div class="h-full">
-	<div class="container max-w-sm mx-auto p-4 pt-32 mt-4 flex flex-col justify-center gap-4">
-		<h2 class="text-7xl font-bold text-center">Sign in</h2>
+<div class="container max-w-sm mx-auto p-4 pt-32 mt-4 flex flex-col gap-4">
+	<h2 class="text-7xl font-bold text-center">Sign in</h2>
 
-		<form on:submit={handleSignIn} class="flex flex-col gap-2 mt-4">
-			<div class="w-full">
-				<label for="email" class="label">Email</label>
-				<input class="w-full input" type="email" name="email" bind:value={email} />
-			</div>
-			<div class="w-full">
-				<label for="password" class="label">Password</label>
-				<input type="password" class="input" name="password" bind:value={password} />
-			</div>
-			<button type="submit" class="mt-4">Sign In</button>
-			<span class="text-center">
-				or <a class="underline cursor-pointer" href={'sign-up/?redirect=' + route}>
-					create an account
-				</a><span /></span
-			>
-		</form>
-	</div>
+	<form on:submit={handleSignIn} class="flex flex-col gap-2 mt-4">
+		<div class="w-full">
+			<label for="email" class="label">Email</label>
+			<input class="w-full input" type="email" name="email" bind:value={email} />
+		</div>
+		<div class="w-full">
+			<label for="password" class="label">Password</label>
+			<input type="password" class="input" name="password" bind:value={password} />
+		</div>
+		<button type="submit" class="mt-4">Sign In</button>
+		<span class="text-center">
+			or <a class="underline cursor-pointer" href={'sign-up/?redirect=' + route}>
+				create an account
+			</a><span /></span
+		>
+	</form>
 </div>
 
 <style>
