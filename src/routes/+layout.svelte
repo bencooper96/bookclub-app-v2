@@ -14,6 +14,7 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import SideMenu from '$components/SideMenu.svelte';
 	import DrawerMenu from '$components/DrawerMenu.svelte';
+	import Icon from '@iconify/svelte';
 
 	export let data;
 
@@ -51,16 +52,27 @@
 	type RouteOptions = {
 		title: string;
 		noMargin?: boolean;
+		trailActions: TrailAction[];
+	};
+
+	type TrailAction = {
+		icon?: string;
+		href?: string;
+		onClick?: () => void;
+		text?: string;
 	};
 
 	const PATHS: Record<NonNullable<typeof route>, RouteOptions> = {
-		'/': { title: 'Messages', noMargin: true },
-		'/add/meeting': { title: 'Add Meeting' },
-		'/add/book': { title: 'Add Book or Reading' },
-		'/auth/login': { title: '' },
-		'/auth/sign-up': { title: '' },
-		'/profile': { title: 'Profile' },
-		'/meetings': { title: 'Meetings' }
+		'/': { title: 'Messages', noMargin: true, trailActions: [] },
+		'/add/meeting': { title: 'Add Meeting', trailActions: [] },
+		'/add/book': { title: 'Add Book or Reading', trailActions: [] },
+		'/auth/login': { title: '', trailActions: [] },
+		'/auth/sign-up': { title: '', trailActions: [] },
+		'/profile': { title: 'Profile', trailActions: [] },
+		'/meetings': {
+			title: 'Meetings',
+			trailActions: [{ text: 'Add meeting', icon: 'mdi:calendar-plus', href: '/add/meeting' }]
+		}
 	};
 
 	const BACKGROUND_COLORS = ['#ff00f2', '#739AFF', '#F88D8D', '#39D4D4', '#BA48FF'];
@@ -87,6 +99,19 @@
 		<svelte:fragment slot="lead">
 			<DrawerMenu {session} />
 			<h1 class="ml-1 text-xl">{route ? PATHS[route].title : ''}</h1>
+		</svelte:fragment>
+
+		<svelte:fragment slot="trail">
+			{#if route && PATHS[route]?.trailActions}
+				{#each PATHS[route].trailActions as action}
+					<a class="btn variant-filled btn-sm" href={action.href} on:click={action.onClick}>
+						{#if action.icon}
+							<Icon icon={action.icon} class="w-6 h-6" />
+						{/if}
+						{action.text}
+					</a>
+				{/each}
+			{/if}
 		</svelte:fragment>
 	</AppBar>
 	<div
