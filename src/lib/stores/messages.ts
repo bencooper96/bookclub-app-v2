@@ -23,8 +23,6 @@ export type Message = {
 };
 
 // consts
-export const REACTION_OPTIONS = ['👍', '👎', '❤️', '🔥', '👀'];
-export const AVATAR_BG_LIST = ['bg-primary-500', 'bg-secondary-500', 'bg-tertiary-500'];
 const MESSAGE_QUERY = `
 	*, 
 	author ( profile_img_url, display_name, id), 

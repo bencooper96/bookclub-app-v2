@@ -10,11 +10,17 @@
 
 	$: ({ session, supabase } = data);
 
-	$: pastMeetings = $meetings.filter((meeting) => {
-		const meetingDate = new Date(meeting.meeting_date);
-		const now = new Date();
-		return meetingDate < now;
-	});
+	$: pastMeetings = $meetings
+		.filter((meeting) => {
+			const meetingDate = new Date(meeting.meeting_date);
+			const now = new Date();
+			return meetingDate < now;
+		})
+		.sort((a, b) => {
+			const aDate = new Date(a.meeting_date);
+			const bDate = new Date(b.meeting_date);
+			return bDate.getTime() - aDate.getTime();
+		});
 	// This variable will save the event for later use.
 	let deferredPrompt: ({ prompt: () => void } & Event) | undefined;
 

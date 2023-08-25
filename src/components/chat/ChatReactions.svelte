@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { REACTION_OPTIONS, type Reaction } from '$lib/stores/messages';
+	import type { Reaction } from '$lib/stores/messages';
 
 	import { createEventDispatcher } from 'svelte';
 	import ChatReactionInput from './ChatReactionInput.svelte';
 	import { fade } from 'svelte/transition';
+	import { REACTION_OPTIONS } from '$lib/consts/chat';
 
 	const dispatch = createEventDispatcher();
 	export let messageId: number;

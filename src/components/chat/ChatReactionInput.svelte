@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { REACTION_OPTIONS } from '$lib/stores/messages';
+	import { REACTION_OPTIONS } from '$lib/consts/chat';
+
 	import type { Placement } from '@floating-ui/dom';
 	import Icon from '@iconify/svelte';
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';

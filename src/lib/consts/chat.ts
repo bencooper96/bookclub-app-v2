@@ -1,1 +1,1 @@
-export const REACTION_OPTIONS = ['👍', '👎', '❤️', '🔥', '👀'];
+export const REACTION_OPTIONS = ['👍', '👎', '😂', '❤️', '🔥', '👀'];
