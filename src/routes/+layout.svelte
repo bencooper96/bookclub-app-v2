@@ -64,15 +64,16 @@
 
 	const PATHS: Record<NonNullable<typeof route>, RouteOptions> = {
 		'/': { title: 'Messages', noMargin: true, trailActions: [] },
-		'/add/meeting': { title: 'Add Meeting', trailActions: [] },
 		'/add/book': { title: 'Add Book or Reading', trailActions: [] },
 		'/auth/login': { title: '', trailActions: [] },
 		'/auth/sign-up': { title: '', trailActions: [] },
 		'/profile': { title: 'Profile', trailActions: [] },
 		'/meetings': {
 			title: 'Meetings',
-			trailActions: [{ text: 'Add meeting', icon: 'mdi:calendar-plus', href: '/add/meeting' }]
-		}
+			trailActions: [{ text: 'Add meeting', icon: 'mdi:calendar-plus', href: '/meetings/add' }]
+		},
+		'/meetings/add': { title: 'Add Meeting', trailActions: [] },
+		'/meetings/edit/[id]': { title: 'Edit Meeting', trailActions: [] }
 	};
 
 	const BACKGROUND_COLORS = ['#ff00f2', '#739AFF', '#F88D8D', '#39D4D4', '#BA48FF'];

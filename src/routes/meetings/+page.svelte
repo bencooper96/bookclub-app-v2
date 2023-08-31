@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import PastMeetings from '$components/meetings/PastMeetings.svelte';
 	import BookbotMessage from '$components/BookbotMessage.svelte';
+	import { goto } from '$app/navigation';
 	export let data;
 
 	$: ({ session, supabase } = data);
@@ -33,7 +34,9 @@
 	});
 
 	function editMeeting() {
-		console.log('called edit');
+		if (!$currentMeeting) return;
+		// route to the edit page
+		goto(`/meetings/edit/${$currentMeeting.id}`);
 	}
 </script>
 
@@ -66,8 +69,15 @@
 					</div>
 				{/if}
 			</div>
-			<div class="container bg-surface-50-900-token p-4 rounded-sm flex flex-col gap-8 shadow-xl">
+			<div
+				class="container bg-surface-50-900-token p-4 rounded-sm flex flex-col gap-8 shadow-xl relative"
+			>
 				<div class="flex flex-col gap-6 w-full overflow-x-visible">
+					<button on:click={editMeeting} class="btn btn-icon-sm absolute top-0 right-0">
+						<span
+							><Icon icon="lucide:pencil-line" class="w-6 h-6 text-surface-800-100-token" />
+						</span>
+					</button>
 					<div class="flex flex-col gap-1 w-full">
 						<h2 class="text-xl text-surface-800-100-token font-light">Next meeting:</h2>
 						<MeetingDateDisplay date={$currentMeeting.meeting_date} display />
