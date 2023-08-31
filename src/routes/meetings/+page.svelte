@@ -6,6 +6,7 @@
 	import { currentMeeting, meetings } from '$lib/stores/meetings';
 	import { onMount } from 'svelte';
 	import PastMeetings from '$components/meetings/PastMeetings.svelte';
+	import BookbotMessage from '$components/BookbotMessage.svelte';
 	export let data;
 
 	$: ({ session, supabase } = data);
@@ -31,14 +32,27 @@
 		});
 	});
 
-	function installApp() {
-		deferredPrompt?.prompt();
+	function editMeeting() {
+		console.log('called edit');
 	}
 </script>
 
 <div class="h-full">
 	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
 		{#if $currentMeeting}
+			{#if $currentMeeting.is_draft}
+				<BookbotMessage
+					header="BookBot created this meeting."
+					message="Please help the group out by filling in some details."
+					isButton={true}
+					isPulsing={true}
+					on:click={editMeeting}
+				>
+					<button on:click={editMeeting}>
+						<Icon icon="lucide:arrow-right" class="w-6 h-6 text-surface-800-100-token" />
+					</button>
+				</BookbotMessage>
+			{/if}
 			<div class="flex flex-row justify-between items-center">
 				{#if $currentMeeting.book}
 					<div class="flex flex-row -mx-2">
