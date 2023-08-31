@@ -8,6 +8,7 @@ export type Meeting = {
 	created_at: Date;
 	message: string;
 	rsvps?: RSVP[];
+	is_draft?: boolean;
 };
 
 export type Book = {

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {
-		AppBar,
 		toastStore,
 		type ToastSettings,
 		type PopupSettings,
@@ -8,7 +7,6 @@
 		popup
 	} from '@skeletonlabs/skeleton';
 
-	import DrawerMenu from '$components/DrawerMenu.svelte';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
@@ -18,24 +16,33 @@
 	export let data;
 	$: ({ session } = data);
 	$: if (!session) {
-		goto('/auth/login?redirect=/add/meeting');
+		goto(`/auth/login?redirect=/meetings/edit/${data.id}`);
 	}
-
-	let isFromBook = $page.url.searchParams.get('from') === 'book';
 
 	let bookId: number;
 	let bookInput: string = '';
 	let message: string = '';
+	let datetime: string = '';
 
 	let loading = false;
 	onMount(() => {
-		const selectedBook = $page.data.selectedBook;
-		bookId = selectedBook?.id;
-		bookInput = selectedBook ? `${selectedBook?.title} - ${selectedBook?.author}` : '';
+		const meeting = data.meeting;
+		if (!meeting) return;
+		message = meeting?.message;
+		const timezoneOffset = getTimezoneOffset();
+		const meetingUTC = new Date(meeting?.meeting_date);
+		datetime = new Date(meetingUTC.getTime() + timezoneOffset * 60 * 1000)
+			.toISOString()
+			.split('.')[0];
+
+		if (meeting?.book) {
+			bookId = meeting.book.id;
+			bookInput = `${meeting.book.title} - ${meeting.book.author}`;
+		}
 	});
 
 	const t: ToastSettings = {
-		message: 'Meeting successfully created!',
+		message: 'Meeting successfully updated!',
 		timeout: 5000,
 		background: 'variant-filled-success'
 	};
@@ -68,12 +75,9 @@
 </script>
 
 <div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
-	<h2 class="{isFromBook ? 'text-3xl' : 'text-4xl'} ml-1 font-bold text-surface-800-100-token">
-		{isFromBook ? 'Add your first meeting' : 'New meeting'}
-	</h2>
 	<form
 		method="POST"
-		action="?/create"
+		action="?/update"
 		use:enhance={({}) => {
 			loading = true;
 
@@ -81,7 +85,7 @@
 				loading = false;
 				if (result.type === 'success') {
 					toastStore.trigger(t);
-					goto('/');
+					goto('/meetings');
 				} else {
 					toastStore.trigger({
 						message: 'Something went wrong!',
@@ -104,6 +108,7 @@
 				placeholder="Date"
 				required
 				min={new Date().toISOString().split('T')[0]}
+				bind:value={datetime}
 			/>
 		</div>
 		<div class="w-full">
@@ -135,7 +140,7 @@
 			</div>
 		</div>
 		<input class="hidden" type="text" name="timezoneOffset" value={getTimezoneOffset()} />
-		<button type="submit" class="mt-4">Create meeting</button>
+		<button type="submit" class="mt-4">Update meeting</button>
 	</form>
 </div>
 

@@ -92,7 +92,7 @@
 			</li>
 			<li>
 				<a
-					href="/add/meeting"
+					href="/meetings/add"
 					class={`flex flex-row items-center gap-1 ${
 						$page.url.pathname == '/add/meeting' && 'font-bold'
 					}`}

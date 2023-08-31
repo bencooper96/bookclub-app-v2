@@ -6,6 +6,8 @@
 	import { currentMeeting, meetings } from '$lib/stores/meetings';
 	import { onMount } from 'svelte';
 	import PastMeetings from '$components/meetings/PastMeetings.svelte';
+	import BookbotMessage from '$components/BookbotMessage.svelte';
+	import { goto } from '$app/navigation';
 	export let data;
 
 	$: ({ session, supabase } = data);
@@ -31,14 +33,29 @@
 		});
 	});
 
-	function installApp() {
-		deferredPrompt?.prompt();
+	function editMeeting() {
+		if (!$currentMeeting) return;
+		// route to the edit page
+		goto(`/meetings/edit/${$currentMeeting.id}`);
 	}
 </script>
 
 <div class="h-full">
 	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
 		{#if $currentMeeting}
+			{#if $currentMeeting.is_draft}
+				<BookbotMessage
+					header="BookBot created this meeting."
+					message="Please help the group out by filling in some details."
+					isButton={true}
+					isPulsing={true}
+					on:click={editMeeting}
+				>
+					<button on:click={editMeeting}>
+						<Icon icon="lucide:arrow-right" class="w-6 h-6 text-surface-800-100-token" />
+					</button>
+				</BookbotMessage>
+			{/if}
 			<div class="flex flex-row justify-between items-center">
 				{#if $currentMeeting.book}
 					<div class="flex flex-row -mx-2">
@@ -52,8 +69,15 @@
 					</div>
 				{/if}
 			</div>
-			<div class="container bg-surface-50-900-token p-4 rounded-sm flex flex-col gap-8 shadow-xl">
+			<div
+				class="container bg-surface-50-900-token p-4 rounded-sm flex flex-col gap-8 shadow-xl relative"
+			>
 				<div class="flex flex-col gap-6 w-full overflow-x-visible">
+					<button on:click={editMeeting} class="btn btn-icon-sm absolute top-0 right-0">
+						<span
+							><Icon icon="lucide:pencil-line" class="w-6 h-6 text-surface-800-100-token" />
+						</span>
+					</button>
 					<div class="flex flex-col gap-1 w-full">
 						<h2 class="text-xl text-surface-800-100-token font-light">Next meeting:</h2>
 						<MeetingDateDisplay date={$currentMeeting.meeting_date} display />
