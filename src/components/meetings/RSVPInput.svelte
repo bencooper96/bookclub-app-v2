@@ -57,19 +57,19 @@
 	<div class="flex flex-row gap-2 py-2">
 		<button
 			class="rsvp-input"
-			class:selected={isNotAttending}
-			on:click={() => (isNotAttending ? () => {} : handleRSVP(meeting, false))}
-		>
-			<span class="text-2xl">😢</span>
-			<span class="text-lg">Can’t make it</span>
-		</button>
-		<button
-			class="rsvp-input"
 			class:selected={isAttending}
 			on:click={() => (isAttending ? () => {} : handleRSVP(meeting, true))}
 		>
 			<span class="text-2xl">🤗</span>
 			<span class="text-lg">I’ll be there!</span>
+		</button>
+		<button
+			class="rsvp-input"
+			class:selected={isNotAttending}
+			on:click={() => (isNotAttending ? () => {} : handleRSVP(meeting, false))}
+		>
+			<span class="text-2xl">😢</span>
+			<span class="text-lg">Can’t make it</span>
 		</button>
 	</div>
 </div>
