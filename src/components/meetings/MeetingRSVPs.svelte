@@ -1,16 +1,19 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { AVATAR_COLORS } from '$lib/consts/avatar';
+	import { getAvatarColor } from '$lib/consts/avatar';
 	import { rsvpsForMeeting, type RSVP, type User } from '$lib/stores/rsvps';
 	import { getInitials } from '$lib/utils/avatarUtils';
 	import { TabGroup, Tab, Avatar } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { rsvps as rsvpStore } from '$lib/stores/rsvps';
+	import { fly } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
 	export let meeting: number;
 	export let isPast: boolean = false;
 	let tabSet: number = 0;
+	let animate = false;
 	let userDropdownOpen: boolean = false;
 	const dispatch = createEventDispatcher();
 
@@ -87,31 +90,47 @@
 		</span>
 	</Tab>
 	<svelte:fragment slot="panel">
-		<ul class="list p-2 bg-surface-100-800-token rounded-sm w-full">
+		<ul
+			class="list p-2 bg-surface-100-800-token rounded-sm w-full"
+			on:mouseenter={() => {
+				animate = true;
+			}}
+			on:mouseleave={() => {
+				animate = false;
+			}}
+		>
 			{#if !filteredRsvps || filteredRsvps?.length === 0}
 				<li class="text-surface-700-200-token">{isPast ? '' : 'No one yet!'}</li>
 			{:else}
-				{#each filteredRsvps as rsvp, i}
-					<li class="flex flex-row justify-between w-full">
-						<div class="flex flex-row gap-2 items-center">
-							<Avatar
-								width="w-10"
-								initials={getInitials(rsvp.user.display_name)}
-								background={AVATAR_COLORS[i % AVATAR_COLORS.length]}
-							/>
-							<span>{rsvp.user.display_name}</span>
+				{#each filteredRsvps as rsvp, i (rsvp.id)}
+					<li animate:flip>
+						<div
+							out:fly|global={{ x: rsvp.is_attending ? 75 : -75, duration: animate ? 500 : 0 }}
+							class="flex flex-row justify-between w-full"
+						>
+							<div class="flex flex-row gap-2 items-center">
+								<Avatar
+									width="w-10"
+									initials={getInitials(rsvp.user.display_name)}
+									background={getAvatarColor(rsvp.user.display_name)}
+								/>
+								<span>{rsvp.user.display_name}</span>
+							</div>
+							{#if isPast}
+								<button class="btn btn-sm" on:click={() => toggleAttendance(rsvp)}>
+									<span class="hidden sm:block">
+										Move to {rsvp.is_attending ? "Didn't Attend" : 'Did Attend'}
+									</span>
+									<Icon
+										icon={rsvp.is_attending ? 'lucide:arrow-right' : 'lucide:arrow-left'}
+										class="w-4 h-4"
+									/>
+								</button>
+							{:else}
+								<span />
+							{/if}
 						</div>
-						{#if isPast}
-							<button class="btn btn-sm" on:click={() => toggleAttendance(rsvp)}
-								>{rsvp.is_attending ? "Didn't attend" : 'Did attend'}</button
-							>
-						{:else}
-							<span />
-						{/if}
 					</li>
-					{#if i < filteredRsvps.length - 1}
-						<hr class="border-surface-700-200-token" />
-					{/if}
 				{/each}
 			{/if}
 		</ul>
