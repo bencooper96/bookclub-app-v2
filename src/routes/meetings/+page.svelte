@@ -40,8 +40,8 @@
 	}
 </script>
 
-<div class="h-full">
-	<div class="container max-w-xl mx-auto p-4 mt-4 flex flex-col gap-4">
+<div class="h-full flex flex-col overflow-y-auto pb-4">
+	<div class="container max-w-3xl mx-auto p-4 mt-4 flex flex-col gap-4">
 		{#if $currentMeeting}
 			{#if $currentMeeting.is_draft}
 				<BookbotMessage
