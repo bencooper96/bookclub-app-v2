@@ -18,9 +18,7 @@
 		<li>
 			<a
 				href="/"
-				class={`flex flex-row items-center gap-1 ${
-					$page.url.pathname == '/meetings' && 'font-bold'
-				}`}
+				class={`flex flex-row items-center gap-1 ${$page.url.pathname == '/' && 'font-bold'}`}
 				on:click={closeMenu}
 			>
 				<Icon icon="lucide:calendar" class="w-7 h-7" />

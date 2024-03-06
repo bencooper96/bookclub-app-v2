@@ -85,7 +85,7 @@
 				loading = false;
 				if (result.type === 'success') {
 					toastStore.trigger(t);
-					goto('/meetings');
+					goto('/');
 				} else {
 					toastStore.trigger({
 						message: 'Something went wrong!',

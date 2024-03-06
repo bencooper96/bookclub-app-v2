@@ -63,12 +63,11 @@
 	};
 
 	const PATHS: Record<NonNullable<typeof route>, RouteOptions> = {
-		'/': { title: 'Messages', noMargin: true, trailActions: [] },
 		'/add/book': { title: 'Add Book or Reading', trailActions: [] },
 		'/auth/login': { title: '', trailActions: [] },
 		'/auth/sign-up': { title: '', trailActions: [] },
 		'/profile': { title: 'Profile', trailActions: [] },
-		'/meetings': {
+		'/': {
 			title: 'Meetings',
 			trailActions: [{ text: 'Add meeting', icon: 'mdi:calendar-plus', href: '/meetings/add' }]
 		},
