@@ -7,7 +7,7 @@
 
 	export let closeMenu = () => {};
 	export let session: Session | null;
-	export let deferredPWAPrompt: ({ prompt: () => void } & Event) | undefined;
+	export let deferredPWAPrompt: ({ prompt: () => void } & Event) | undefined = undefined;
 
 	$: displayName = session?.user.user_metadata?.display_name;
 	$: email = session?.user.email;
@@ -19,18 +19,6 @@
 			<a
 				href="/"
 				class={`flex flex-row items-center gap-1 ${$page.url.pathname == '/' && 'font-bold'}`}
-				on:click={closeMenu}
-			>
-				<Icon icon="lucide:messages-square" class="w-7 h-7" />
-				Messages
-			</a>
-		</li>
-		<li>
-			<a
-				href="/meetings"
-				class={`flex flex-row items-center gap-1 ${
-					$page.url.pathname == '/meetings' && 'font-bold'
-				}`}
 				on:click={closeMenu}
 			>
 				<Icon icon="lucide:calendar" class="w-7 h-7" />

@@ -22,7 +22,7 @@
 				RSVPed
 			</span>
 		{:else}
-			<a href="/meetings" class="btn btn-sm variant-filled-primary">RSVP</a>
+			<a href="/" class="btn btn-sm variant-filled-primary">RSVP</a>
 		{/if}
 	</div>
 </div>

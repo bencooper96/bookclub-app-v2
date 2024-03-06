@@ -59,7 +59,7 @@
 			return async ({ result, update }) => {
 				if (result.type === 'success') {
 					toastStore.trigger(t);
-					goto('/add/meeting?from=book&book=' + result.data?.id);
+					goto('/meetings/add?from=book&book=' + result.data?.id);
 				} else {
 					toastStore.trigger({
 						message: 'Something went wrong while adding the book!',
